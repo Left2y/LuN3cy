@@ -23,6 +23,15 @@ echo.
 echo 3. Pulling latest changes from GitHub...
 git pull origin main --rebase
 
+if %errorlevel% neq 0 (
+    echo.
+    echo [ERROR] Conflict detected or pull failed! 
+    echo Git has stopped to protect your changes.
+    echo Please resolve conflicts manually before pushing.
+    pause
+    exit /b
+)
+
 echo.
 echo 4. Pushing to GitHub...
 git push origin main
