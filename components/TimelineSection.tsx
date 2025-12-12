@@ -67,8 +67,8 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({ language }) =>
   };
   const decryptPayload = async (answer: string) => {
     try {
-      const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-      const res = await fetch(`${baseUrl}secure/education.enc.json`, { cache: 'no-store' });
+      const url = new URL('secure/education.enc.json', document.baseURI).toString();
+      const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) return;
       const payload = await res.json();
       const key = await deriveKey(answer, payload.salt);
