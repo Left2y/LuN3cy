@@ -4,13 +4,10 @@ import Matter from 'matter-js';
 import { Sidebar } from './components/Sidebar';
 import { HeroSection } from './components/HeroSection';
 import { PortfolioSection } from './components/PortfolioSection';
-import { ArticleSection } from './components/ArticleSection';
-import { TimelineSection } from './components/TimelineSection';
 import { MusicPlayer } from './components/MusicPlayer';
-import { Mail, MapPin, RotateCcw, MessageSquare, Instagram, Youtube, FileText, Aperture, Github } from 'lucide-react';
+import { Mail, MapPin, RotateCcw, Phone, MessageCircle } from 'lucide-react';
 import { NAV_ITEMS } from './src/data/navigation';
 import { CONTACT_DATA } from './src/data/contact';
-import { ARTICLES_PAGE_DATA } from './src/data/articles';
 import { PORTFOLIO_PAGE_DATA } from './src/data/portfolioPage';
 import { Language, Category } from './types';
 
@@ -376,26 +373,6 @@ function App() {
              <PortfolioSection language={language} externalFilter={portfolioCategory} />
           </div>
         );
-      case 'articles':
-        return (
-          <div className="pt-20 w-full max-w-[96vw] mx-auto">
-             <div className="mb-24 flex flex-col items-center text-center">
-               <h1 className="text-[8vw] leading-none font-black mb-8 text-black dark:text-white transition-colors duration-300">
-                 {ARTICLES_PAGE_DATA[language].title}
-               </h1>
-               <p className="text-2xl text-gray-500 dark:text-gray-400 max-w-2xl font-medium transition-colors duration-300">
-                 {ARTICLES_PAGE_DATA[language].description}
-               </p>
-             </div>
-             <ArticleSection language={language} />
-          </div>
-        );
-      case 'about':
-        return (
-          <div className="pt-20 w-full max-w-[96vw] mx-auto">
-            <TimelineSection language={language} />
-          </div>
-        );
       case 'contact':
         return (
            <div className="pt-32 w-full max-w-5xl mx-auto text-center animate-fade-in px-4">
@@ -411,233 +388,34 @@ function App() {
                   <div className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-orange-500 transition-colors duration-300">
                      <Mail size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-orange-500 transition-colors duration-300" />
                      <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                       {content.emailMeLabel}
+                       {language === 'zh' ? '邮箱' : 'Email'}
                      </h3>
                      <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
-                       {content.email}
+                       yang456w@mail.com
                      </p>
                   </div>
 
-                 {/* Socials - WeChat */}
-                 <div 
-                    className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] hover:border-[#07C160] transition-colors duration-300 group cursor-pointer relative"
-                    onClick={() => window.open('https://mp.weixin.qq.com/s/MD5T-BsAgUi9yUo6ISY1CA', '_blank')}
-                    onMouseEnter={(e) => {
-                       const tooltip = document.getElementById('wechat-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '1';
-                          tooltip.style.transform = 'scale(1) translateY(0)';
-                       }
-                    }}
-                    onMouseMove={(e) => {
-                       const tooltip = document.getElementById('wechat-tooltip');
-                       if (tooltip) {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          const x = e.clientX - rect.left;
-                          const y = e.clientY - rect.top;
-                          tooltip.style.left = `${x + 20}px`;
-                          tooltip.style.top = `${y + 20}px`;
-                       }
-                    }}
-                    onMouseLeave={() => {
-                       const tooltip = document.getElementById('wechat-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '0';
-                          tooltip.style.transform = 'scale(0.95) translateY(10px)';
-                       }
-                    }}
-                 >
-                    <MessageSquare size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-[#07C160] transition-colors duration-300" />
-                    <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                      {language === 'zh' ? '公众号' : 'WeChat'}
-                    </h3>
-                    <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.wechat || 'Lun3cy'}
-                    </p>
-                    
-                    {/* Glassmorphism Tooltip */}
-                    <div 
-                       id="wechat-tooltip"
-                       className="absolute z-50 w-64 h-32 bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl pointer-events-none transition-all duration-200 opacity-0 transform scale-95 translate-y-2 overflow-hidden flex items-center justify-center"
-                       style={{ top: 0, left: 0 }}
-                    >
-                       <p className="text-sm font-bold text-black dark:text-white opacity-80 px-4 text-center">
-                          Click to view profile<br/>
-                          <span className="text-xs opacity-50 font-mono">mp.weixin.qq.com</span>
-                       </p>
-                    </div>
-                 </div>
+                 {/* Phone */}
+                  <div className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-blue-500 transition-colors duration-300">
+                     <Phone size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-blue-500 transition-colors duration-300" />
+                     <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
+                       {language === 'zh' ? '电话' : 'Phone'}
+                     </h3>
+                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
+                       18613079615
+                     </p>
+                  </div>
 
-                 {/* Socials - Xiaohongshu */}
-                 <div 
-                    className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] hover:border-[#EC4048] transition-colors duration-300 group cursor-pointer relative"
-                    onClick={() => window.open('https://www.xiaohongshu.com/user/profile/61bbb882000000001000e80d', '_blank')}
-                    onMouseEnter={(e) => {
-                       const tooltip = document.getElementById('red-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '1';
-                          tooltip.style.transform = 'scale(1) translateY(0)';
-                       }
-                    }}
-                    onMouseMove={(e) => {
-                       const tooltip = document.getElementById('red-tooltip');
-                       if (tooltip) {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          const x = e.clientX - rect.left;
-                          const y = e.clientY - rect.top;
-                          tooltip.style.left = `${x + 20}px`;
-                          tooltip.style.top = `${y + 20}px`;
-                       }
-                    }}
-                    onMouseLeave={() => {
-                       const tooltip = document.getElementById('red-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '0';
-                          tooltip.style.transform = 'scale(0.95) translateY(10px)';
-                       }
-                    }}
-                 >
-                    <Instagram size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-[#EC4048] transition-colors duration-300" />
-                    <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                      {language === 'zh' ? '小红书' : 'RED'}
-                    </h3>
-                    <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.xiaohongshu || 'Lun3cy'}
-                    </p>
-
-                    {/* Glassmorphism Tooltip */}
-                    <div 
-                       id="red-tooltip"
-                       className="absolute z-50 w-64 h-32 bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl pointer-events-none transition-all duration-200 opacity-0 transform scale-95 translate-y-2 overflow-hidden flex items-center justify-center"
-                       style={{ top: 0, left: 0 }}
-                    >
-                       <p className="text-sm font-bold text-black dark:text-white opacity-80 px-4 text-center">
-                          Click to view profile<br/>
-                          <span className="text-xs opacity-50 font-mono">xiaohongshu.com</span>
-                       </p>
-                    </div>
-                 </div>
-
-                 {/* Socials - Bilibili */}
-                 <div 
-                    className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] hover:border-[#00AEEC] transition-colors duration-300 group cursor-pointer relative"
-                    onClick={() => window.open('https://b23.tv/XNNX02Q', '_blank')}
-                    onMouseEnter={(e) => {
-                       const tooltip = document.getElementById('bili-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '1';
-                          tooltip.style.transform = 'scale(1) translateY(0)';
-                       }
-                    }}
-                    onMouseMove={(e) => {
-                       const tooltip = document.getElementById('bili-tooltip');
-                       if (tooltip) {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          const x = e.clientX - rect.left;
-                          const y = e.clientY - rect.top;
-                          tooltip.style.left = `${x + 20}px`;
-                          tooltip.style.top = `${y + 20}px`;
-                       }
-                    }}
-                    onMouseLeave={() => {
-                       const tooltip = document.getElementById('bili-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '0';
-                          tooltip.style.transform = 'scale(0.95) translateY(10px)';
-                       }
-                    }}
-                 >
-                    <Youtube size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-[#00AEEC] transition-colors duration-300" />
-                    <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                      Bilibili
-                    </h3>
-                    <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.bilibili || 'Lun3cy'}
-                    </p>
-
-                    {/* Glassmorphism Tooltip */}
-                    <div 
-                       id="bili-tooltip"
-                       className="absolute z-50 w-64 h-32 bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl pointer-events-none transition-all duration-200 opacity-0 transform scale-95 translate-y-2 overflow-hidden flex items-center justify-center"
-                       style={{ top: 0, left: 0 }}
-                    >
-                       <p className="text-sm font-bold text-black dark:text-white opacity-80 px-4 text-center">
-                          Click to view profile<br/>
-                          <span className="text-xs opacity-50 font-mono">b23.tv/XNNX02Q</span>
-                       </p>
-                    </div>
-                 </div>
-
-                 {/* Socials - 500px */}
-                 <div 
-                    className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] hover:border-black dark:hover:border-white transition-colors duration-300 group cursor-pointer relative"
-                    onClick={() => window.open('https://500px.com.cn/LuN3cy', '_blank')}
-                    onMouseEnter={(e) => {
-                       const tooltip = document.getElementById('px-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '1';
-                          tooltip.style.transform = 'scale(1) translateY(0)';
-                       }
-                    }}
-                    onMouseMove={(e) => {
-                       const tooltip = document.getElementById('px-tooltip');
-                       if (tooltip) {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          const x = e.clientX - rect.left;
-                          const y = e.clientY - rect.top;
-                          tooltip.style.left = `${x + 20}px`;
-                          tooltip.style.top = `${y + 20}px`;
-                       }
-                    }}
-                    onMouseLeave={() => {
-                       const tooltip = document.getElementById('px-tooltip');
-                       if (tooltip) {
-                          tooltip.style.opacity = '0';
-                          tooltip.style.transform = 'scale(0.95) translateY(10px)';
-                       }
-                    }}
-                 >
-                    <Aperture size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300" />
-                    <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                      500px
-                    </h3>
-                    <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.px500 || 'LuN3cy'}
-                    </p>
-
-                    {/* Glassmorphism Tooltip */}
-                    <div 
-                       id="px-tooltip"
-                       className="absolute z-50 w-64 h-32 bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl pointer-events-none transition-all duration-200 opacity-0 transform scale-95 translate-y-2 overflow-hidden flex items-center justify-center"
-                       style={{ top: 0, left: 0 }}
-                    >
-                       <p className="text-sm font-bold text-black dark:text-white opacity-80 px-4 text-center">
-                          Click to view profile<br/>
-                          <span className="text-xs opacity-50 font-mono">500px.com.cn</span>
-                       </p>
-                    </div>
-                 </div>
-
-                 {/* GitHub */}
-                 <div 
-                    className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] relative group cursor-pointer hover:border-black dark:hover:border-white transition-colors duration-300"
-                    onClick={() => window.open('https://github.com/LuN3cy', '_blank')}
-                 >
-                    <Github size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300" />
-                    {/* Custom Floating Color for Github Icon on Hover */}
-                    <style>{`
-                      .group:hover .text-gray-400.group-hover\\:text-black { color: #0D1932 !important; }
-                      .dark .group:hover .text-gray-400.dark\\:group-hover\\:text-white { color: #0D1932 !important; }
-                      .group:hover.hover\\:border-black { border-color: #0D1932 !important; }
-                      .dark .group:hover.dark\\:hover\\:border-white { border-color: #0D1932 !important; }
-                    `}</style>
-                    <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                      {content.githubLabel}
-                    </h3>
-                    <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      @LuN3cy
-                    </p>
-                 </div>
+                 {/* WeChat */}
+                  <div className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-green-500 transition-colors duration-300">
+                     <MessageCircle size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-green-500 transition-colors duration-300" />
+                     <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
+                       {language === 'zh' ? '微信' : 'WeChat'}
+                     </h3>
+                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
+                       ysf1028
+                     </p>
+                  </div>
               </div>
            </div>
         )
@@ -678,7 +456,7 @@ function App() {
 
          {/* Footer */}
          <footer className="w-full max-w-[96vw] mx-auto mt-32 border-t-2 border-black dark:border-white pt-12 flex flex-col md:flex-row justify-between items-center text-sm font-light text-gray-400 dark:text-gray-500 uppercase tracking-wide gap-4 transition-colors duration-300">
-            <p>© 2025 LUN3CY FAN</p>
+            <p>© 2025 LEFT2Y</p>
             <p>{content.footerDesign}</p>
          </footer>
       </main>

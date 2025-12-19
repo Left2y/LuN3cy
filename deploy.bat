@@ -1,6 +1,6 @@
 @echo off
 echo ========================================================
-echo       LuN3cy Website Content Update Helper
+echo       Left2y Website Content Update Helper
 echo ========================================================
 echo.
 echo This script will help you upload your changes to GitHub.

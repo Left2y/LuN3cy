@@ -1,31 +1,31 @@
-# Hi there, I'm LuN3cy Fan 👋
+# Hi there, I'm Left2y 👋
 
-> "A photographer who doesn't understand design is not a good product manager."
+> "在这里填写你的个性签名。"
 >
-> 不懂设计的摄影师不是一个好的产品经理。
+> Your personal motto here.
 
-I'm a creator based in **Zhuhai, Guangdong**, focusing on Videography, Design, and Development. Learning by doing, living the MVP life.
+I'm a creator based in **你的城市**, focusing on 你的主要技能方向. Learning by doing, living the MVP life.
 
 ## 🎨 What I Do
 
-*   **Videography** (Extensive Portfolio)
-*   **Graphic & UI** (Main Focus & Passion)
-*   **Development** (Vibe Builder)
-*   **Cooking** (Still Learning...)
+*   **技能1** (描述)
+*   **技能2** (描述)
+*   **技能3** (描述)
+*   **技能4** (描述)
 
 ## 🛠️ Tech Stack & Tools
 
-*   **Design**: Figma & AI Tools
-*   **Dev**: Trae & Google AI Studio
-*   **Video**: DaVinci Resolve, CapCut(No charge plz)
+*   **Design**: 你使用的设计工具
+*   **Dev**: 你使用的开发工具
+*   **Video**: 你使用的视频工具
 
 ## 📫 Connect with Me
 
-*   **WeChat Official/公众号**: LuN3cy的实验房
-*   **RED/小红书**: LuN3cy
-*   **Bilibili**: [LuN3cy](https://space.bilibili.com/13573186)
-*   **500px**: [LuN3cy](https://500px.com.cn/LuN3cy)
+*   **WeChat Official/公众号**: 你的公众号
+*   **RED/小红书**: 你的小红书
+*   **Bilibili**: [你的B站](https://space.bilibili.com/你的UID)
+*   **500px**: [你的500px](https://500px.com.cn/你的ID)
 
 ---
 
-*Powered by Gemini 3 Pro & React*
+*Powered by React & Vite*
