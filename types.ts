@@ -45,7 +45,7 @@ export interface Project {
   concept?: string;
   roleDetail?: string;
   awards?: string[]; // Array of award strings
-  
+
   // Special field for placeholder UI
   bilingualTitle?: {
     zh: string;
@@ -55,6 +55,13 @@ export interface Project {
   websiteUrl?: string; // Online preview URL
   githubUrl?: string; // GitHub repository URL
   icon?: string; // Icon name for Dev projects
+}
+
+export interface BilingualProject {
+  id: string;
+  common: Partial<Project>;
+  zh: Partial<Project>;
+  en: Partial<Project>;
 }
 
 export interface Experience {

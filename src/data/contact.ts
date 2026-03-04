@@ -18,6 +18,7 @@ export interface ContactContent {
   socials: SocialLinks;
   tooltip?: string;
   githubLabel: string;
+  resumeLabel: string;
   footerDesign: string;
 }
 
@@ -38,6 +39,7 @@ export const CONTACT_DATA: Record<Language, ContactContent> = {
     },
     tooltip: "生于此，长于此，珠三角随叫随到。",
     githubLabel: "GitHub",
+    resumeLabel: "获取简历",
     footerDesign: "Powered by Gemini 3 Pro"
   },
   en: {
@@ -56,6 +58,7 @@ export const CONTACT_DATA: Record<Language, ContactContent> = {
     },
     tooltip: "Born and raised here. Available across the Pearl River Delta.",
     githubLabel: "GitHub",
+    resumeLabel: "Get Resume",
     footerDesign: "Powered by Gemini 3 Pro"
   }
 };

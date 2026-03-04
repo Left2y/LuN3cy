@@ -5,7 +5,7 @@ import { Sidebar } from './components/Sidebar';
 import { HeroSection } from './components/HeroSection';
 import { PortfolioSection } from './components/PortfolioSection';
 import { MusicPlayer } from './components/MusicPlayer';
-import { Mail, MapPin, RotateCcw, Phone, MessageCircle } from 'lucide-react';
+import { Mail, MapPin, RotateCcw, Phone, MessageCircle, Smile, FileDown } from 'lucide-react';
 import { NAV_ITEMS } from './src/data/navigation';
 import { CONTACT_DATA } from './src/data/contact';
 import { PORTFOLIO_PAGE_DATA } from './src/data/portfolioPage';
@@ -20,9 +20,9 @@ function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [language, setLanguage] = useState<Language>('zh');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  
+
   const [portfolioCategory, setPortfolioCategory] = useState<string>('All');
-  
+
   const [gravityActive, setGravityActive] = useState(false);
 
   const startViewTransition = (update: () => void) => {
@@ -76,58 +76,58 @@ function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   };
-  
+
   // -------------------------
   // GRAVITY EXPLOSION LOGIC
   // -------------------------
-  
+
   const handleInteraction = (event: MouseEvent) => {
     if (!engineRef.current) return;
     const engine = engineRef.current;
-    
+
     const mouseX = event.clientX + window.scrollX;
     const mouseY = event.clientY + window.scrollY;
-    
+
     const bodies = Matter.Composite.allBodies(engine.world);
-    
+
     bodies.forEach((body: any) => {
       if (body.isStatic) return;
 
       // Add force on click
       if (event.type === 'mousedown') {
-          const bodyX = body.position.x;
-          const bodyY = body.position.y;
-          const distance = Math.sqrt(Math.pow(mouseX - bodyX, 2) + Math.pow(mouseY - bodyY, 2));
-          
-          if (distance < 500) {
-            const forceMagnitude = 0.8 * (1 - distance / 500); 
-            const angle = Math.atan2(bodyY - mouseY, bodyX - mouseX);
-            
-            Matter.Body.applyForce(body, body.position, {
-              x: Math.cos(angle) * forceMagnitude,
-              y: Math.sin(angle) * forceMagnitude
-            });
-          }
+        const bodyX = body.position.x;
+        const bodyY = body.position.y;
+        const distance = Math.sqrt(Math.pow(mouseX - bodyX, 2) + Math.pow(mouseY - bodyY, 2));
+
+        if (distance < 500) {
+          const forceMagnitude = 0.8 * (1 - distance / 500);
+          const angle = Math.atan2(bodyY - mouseY, bodyX - mouseX);
+
+          Matter.Body.applyForce(body, body.position, {
+            x: Math.cos(angle) * forceMagnitude,
+            y: Math.sin(angle) * forceMagnitude
+          });
+        }
       }
     });
   };
 
   const triggerGravity = () => {
     if (gravityActive) return;
-    
+
     if (!Matter) return;
 
     scrollPositionRef.current = window.scrollY;
     // Lock body height to current scroll height to prevent layout jump
-    document.body.style.height = `${document.documentElement.scrollHeight}px`; 
-    document.body.style.overflow = 'hidden'; 
-    
+    document.body.style.height = `${document.documentElement.scrollHeight}px`;
+    document.body.style.overflow = 'hidden';
+
     setGravityActive(true);
 
     const Engine = Matter.Engine,
-          Runner = Matter.Runner,
-          Bodies = Matter.Bodies,
-          Composite = Matter.Composite;
+      Runner = Matter.Runner,
+      Bodies = Matter.Bodies,
+      Composite = Matter.Composite;
 
     const engine = Engine.create({
       positionIterations: 12,
@@ -140,7 +140,7 @@ function App() {
     // Dissipate large images
     const largeComponents = Array.from(document.querySelectorAll('main img, .aspect-\\[4\\/3\\]')) as HTMLElement[];
     const dissipatedData: ExplodedElementData[] = [];
-    
+
     largeComponents.forEach(el => {
       dissipatedData.push({
         element: el,
@@ -165,16 +165,16 @@ function App() {
       div[class*="h-[1px]"],
       div[class*="h-[2px]"]
     `;
-    
+
     const candidates = Array.from(document.querySelectorAll(selector)) as HTMLElement[];
-    
+
     const visibleCandidates = candidates.filter(el => {
-       const rect = el.getBoundingClientRect();
-       if (rect.width < 5 || rect.height < 5) return false;
-       if (window.getComputedStyle(el).display === 'none') return false;
-       if (window.getComputedStyle(el).opacity === '0') return false;
-       if (largeComponents.includes(el)) return false;
-       return true;
+      const rect = el.getBoundingClientRect();
+      if (rect.width < 5 || rect.height < 5) return false;
+      if (window.getComputedStyle(el).display === 'none') return false;
+      if (window.getComputedStyle(el).opacity === '0') return false;
+      if (largeComponents.includes(el)) return false;
+      return true;
     });
 
     // Containment check to prevent overlapping physics bodies
@@ -199,11 +199,11 @@ function App() {
       const centerY = rect.top + rect.height / 2 + scrollY;
 
       const body = Bodies.rectangle(centerX, centerY, rect.width, rect.height, {
-        restitution: 0.2, 
-        friction: 0.5,    
-        frictionAir: 0.05, 
+        restitution: 0.2,
+        friction: 0.5,
+        frictionAir: 0.05,
         density: 0.002,
-        chamfer: { radius: Math.min(rect.width, rect.height) * 0.1 }, 
+        chamfer: { radius: Math.min(rect.width, rect.height) * 0.1 },
         angle: (Math.random() - 0.5) * 0.05
       });
       (body as any).domElement = el;
@@ -216,10 +216,10 @@ function App() {
       el.style.top = `${rect.top + scrollY}px`;
       el.style.width = `${rect.width}px`;
       el.style.height = `${rect.height}px`;
-      el.style.margin = '0'; 
+      el.style.margin = '0';
       el.style.transform = 'translate(0, 0) rotate(0deg)';
       el.style.zIndex = '1000';
-      el.style.pointerEvents = 'none'; 
+      el.style.pointerEvents = 'none';
       el.style.transition = 'none';
     });
 
@@ -229,27 +229,27 @@ function App() {
 
     // Add floor
     const floor = Bodies.rectangle(
-        window.innerWidth / 2, 
-        totalHeight + 500, // Place floor well below content
-        window.innerWidth, 
-        1000, 
-        { isStatic: true, render: { visible: false } }
+      window.innerWidth / 2,
+      totalHeight + 500, // Place floor well below content
+      window.innerWidth,
+      1000,
+      { isStatic: true, render: { visible: false } }
     );
 
     // Add walls
     const wallLeft = Bodies.rectangle(
-        -500, 
-        totalHeight / 2, 
-        1000, 
-        totalHeight * 2, 
-        { isStatic: true, render: { visible: false } }
+      -500,
+      totalHeight / 2,
+      1000,
+      totalHeight * 2,
+      { isStatic: true, render: { visible: false } }
     );
     const wallRight = Bodies.rectangle(
-        window.innerWidth + 500, 
-        totalHeight / 2, 
-        1000, 
-        totalHeight * 2, 
-        { isStatic: true, render: { visible: false } }
+      window.innerWidth + 500,
+      totalHeight / 2,
+      1000,
+      totalHeight * 2,
+      { isStatic: true, render: { visible: false } }
     );
 
     Composite.add(world, [floor, wallLeft, wallRight, ...bodies]);
@@ -266,7 +266,7 @@ function App() {
         if (el) {
           const { x, y } = body.position;
           const angle = body.angle;
-          
+
           const initialLeft = parseFloat(el.style.left);
           const initialTop = parseFloat(el.style.top);
           const w = parseFloat(el.style.width);
@@ -284,11 +284,11 @@ function App() {
 
       requestRef.current = requestAnimationFrame(update);
     };
-    
+
     update();
 
     setTimeout(() => {
-        window.addEventListener('mousedown', handleInteraction);
+      window.addEventListener('mousedown', handleInteraction);
     }, 50);
   };
 
@@ -301,16 +301,16 @@ function App() {
       Matter.Engine.clear(engineRef.current);
     }
     if (requestRef.current) cancelAnimationFrame(requestRef.current);
-    
+
     engineRef.current = null;
     runnerRef.current = null;
 
     const explodedData = explodedElementsRef.current;
-    
+
     explodedData.forEach(({ element }) => {
       // FORCE REFLOW: Critical for smooth transition from chaos to order
-      void element.offsetWidth; 
-      
+      void element.offsetWidth;
+
       // Use specific transition property to avoid conflicts
       element.style.transition = 'transform 1s cubic-bezier(0.19, 1, 0.22, 1)';
       // Reset transform to identity (relative to fixed start position)
@@ -329,16 +329,16 @@ function App() {
         element.setAttribute('style', originalStyle);
       });
       dissipatedData.forEach(({ element, originalStyle }) => {
-         element.setAttribute('style', originalStyle);
+        element.setAttribute('style', originalStyle);
       });
 
       explodedElementsRef.current = [];
       dissipatedElementsRef.current = [];
-      
+
       document.body.style.height = '';
       document.body.style.overflow = '';
       window.scrollTo(0, scrollPositionRef.current);
-      
+
       setGravityActive(false);
     }, 1000); // Matches transition duration
   };
@@ -351,10 +351,10 @@ function App() {
       case 'dashboard':
         return (
           <>
-            <HeroSection 
-              onNavigate={(tab) => startViewTransition(() => setActiveTab(tab))} 
+            <HeroSection
+              onNavigate={(tab) => startViewTransition(() => setActiveTab(tab))}
               onCategorySelect={handleHeroNavigation}
-              language={language} 
+              language={language}
             />
             <PortfolioSection language={language} externalFilter={portfolioCategory} />
           </>
@@ -362,70 +362,85 @@ function App() {
       case 'portfolio':
         return (
           <div className="pt-20 w-full max-w-[96vw] mx-auto">
-             <div className="mb-24">
-               <h1 className="text-[8vw] leading-none font-black mb-8 text-black dark:text-white transition-colors duration-300">
-                 {PORTFOLIO_PAGE_DATA[language].title}
-               </h1>
-               <p className="text-2xl text-gray-500 dark:text-gray-400 max-w-2xl font-medium transition-colors duration-300">
-                 {PORTFOLIO_PAGE_DATA[language].description}
-               </p>
-             </div>
-             <PortfolioSection language={language} externalFilter={portfolioCategory} />
+            <div className="mb-24">
+              <h1 className="text-[8vw] leading-none font-black mb-8 text-black dark:text-white transition-colors duration-300">
+                {PORTFOLIO_PAGE_DATA[language].title}
+              </h1>
+              <p className="text-2xl text-gray-500 dark:text-gray-400 max-w-2xl font-medium transition-colors duration-300">
+                {PORTFOLIO_PAGE_DATA[language].description}
+              </p>
+            </div>
+            <PortfolioSection language={language} externalFilter={portfolioCategory} />
           </div>
         );
       case 'contact':
         return (
-           <div className="pt-32 w-full max-w-5xl mx-auto text-center animate-fade-in px-4">
-              <h1 className="text-[12vw] font-black mb-12 leading-none text-black dark:text-white transition-colors duration-300">
-                {content.hello}
-              </h1>
-              <p className="text-3xl text-gray-500 dark:text-gray-400 mb-20 max-w-3xl mx-auto leading-relaxed font-medium transition-colors duration-300">
-                {content.intro}
-              </p>
+          <div className="pt-32 w-full max-w-5xl mx-auto text-center animate-fade-in px-4">
+            <h1 className="text-[12vw] font-black mb-12 leading-none text-black dark:text-white transition-colors duration-300">
+              {content.hello}
+            </h1>
+            <p className="text-3xl text-gray-500 dark:text-gray-400 mb-20 max-w-3xl mx-auto leading-relaxed font-medium transition-colors duration-300">
+              {content.intro}
+            </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 {/* Email */}
-                  <div className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-orange-500 transition-colors duration-300">
-                     <Mail size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-orange-500 transition-colors duration-300" />
-                     <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                       {language === 'zh' ? '邮箱' : 'Email'}
-                     </h3>
-                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
-                       yang456w@mail.com
-                     </p>
-                  </div>
-
-                 {/* Phone */}
-                  <div className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-blue-500 transition-colors duration-300">
-                     <Phone size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-blue-500 transition-colors duration-300" />
-                     <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                       {language === 'zh' ? '电话' : 'Phone'}
-                     </h3>
-                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
-                       18613079615
-                     </p>
-                  </div>
-
-                 {/* WeChat */}
-                  <div className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-green-500 transition-colors duration-300">
-                     <MessageCircle size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-green-500 transition-colors duration-300" />
-                     <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                       {language === 'zh' ? '微信' : 'WeChat'}
-                     </h3>
-                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
-                       ysf1028
-                     </p>
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Email */}
+              <div className="block p-8 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-orange-500 transition-colors duration-300">
+                <Mail size={40} className="mx-auto mb-4 text-gray-400 group-hover:text-orange-500 transition-colors duration-300" />
+                <h3 className="text-xl font-bold mb-1 text-black dark:text-white transition-colors duration-300">
+                  {language === 'zh' ? '邮箱' : 'Email'}
+                </h3>
+                <p className="text-base opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
+                  yang456w@mail.com
+                </p>
               </div>
-           </div>
+
+              {/* Phone */}
+              <div className="block p-8 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-blue-500 transition-colors duration-300">
+                <Phone size={40} className="mx-auto mb-4 text-gray-400 group-hover:text-blue-500 transition-colors duration-300" />
+                <h3 className="text-xl font-bold mb-1 text-black dark:text-white transition-colors duration-300">
+                  {language === 'zh' ? '电话' : 'Phone'}
+                </h3>
+                <p className="text-base opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
+                  18613079615
+                </p>
+              </div>
+
+              {/* WeChat */}
+              <div className="block p-8 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-green-500 transition-colors duration-300">
+                <MessageCircle size={40} className="mx-auto mb-4 text-gray-400 group-hover:text-green-500 transition-colors duration-300" />
+                <h3 className="text-xl font-bold mb-1 text-black dark:text-white transition-colors duration-300">
+                  {language === 'zh' ? '微信' : 'WeChat'}
+                </h3>
+                <p className="text-base opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300 select-text">
+                  ysf1028
+                </p>
+              </div>
+
+              {/* Resume Download */}
+              <a
+                href="/resume.pdf"
+                download="体验设计师简历.pdf"
+                className="block p-8 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-pointer hover:border-orange-500 transition-colors duration-300"
+              >
+                <FileDown size={40} className="mx-auto mb-4 text-gray-400 group-hover:text-orange-500 transition-colors duration-300" />
+                <h3 className="text-xl font-bold mb-1 text-black dark:text-white transition-colors duration-300">
+                  {content.resumeLabel}
+                </h3>
+                <p className="text-base opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
+                  {language === 'zh' ? '下载 PDF' : 'Download PDF'}
+                </p>
+              </a>
+            </div>
+          </div>
         )
       default:
         return (
           <>
-            <HeroSection 
-              onNavigate={(tab) => startViewTransition(() => setActiveTab(tab))} 
+            <HeroSection
+              onNavigate={(tab) => startViewTransition(() => setActiveTab(tab))}
               onCategorySelect={handleHeroNavigation}
-              language={language} 
+              language={language}
             />
             <PortfolioSection language={language} externalFilter={portfolioCategory} />
           </>
@@ -435,12 +450,12 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white font-sans selection:bg-black dark:selection:bg-white selection:text-white dark:selection:text-black overflow-x-hidden transition-colors duration-300">
-      
+
       <MusicPlayer />
       {/* Dynamic Navigation */}
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={(tab) => startViewTransition(() => setActiveTab(tab))} 
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={(tab) => startViewTransition(() => setActiveTab(tab))}
         language={language}
         toggleLanguage={toggleLanguage}
         theme={theme}
@@ -450,21 +465,21 @@ function App() {
 
       {/* Main Content Area */}
       <main className="w-full pt-40 pb-32 vt-page">
-         <div key={activeTab} className="animate-fade-in">
-           {renderContent()}
-         </div>
+        <div key={activeTab} className="animate-fade-in">
+          {renderContent()}
+        </div>
 
-         {/* Footer */}
-         <footer className="w-full max-w-[96vw] mx-auto mt-32 border-t-2 border-black dark:border-white pt-12 flex flex-col md:flex-row justify-between items-center text-sm font-light text-gray-400 dark:text-gray-500 uppercase tracking-wide gap-4 transition-colors duration-300">
-            <p>© 2025 LEFT2Y</p>
-            <p>{content.footerDesign}</p>
-         </footer>
+        {/* Footer */}
+        <footer className="w-full max-w-[96vw] mx-auto mt-32 border-t-2 border-black dark:border-white pt-12 flex flex-col md:flex-row justify-between items-center text-sm font-light text-gray-400 dark:text-gray-500 uppercase tracking-wide gap-4 transition-colors duration-300">
+          <p>© 2025 LEFT2Y</p>
+          <p>{content.footerDesign}</p>
+        </footer>
       </main>
-      
+
       {/* Floating Reset Button for Gravity - Fixed Centering Wrapper */}
       {gravityActive && (
         <div className="fixed bottom-8 left-0 w-full flex justify-center z-[1001] pointer-events-none">
-          <button 
+          <button
             onClick={resetGravity}
             className="pointer-events-auto bg-black dark:bg-white text-white dark:text-black px-8 py-4 rounded-full font-bold text-xl shadow-2xl animate-fade-in hover:scale-110 transition-transform flex items-center gap-3 cursor-pointer"
           >

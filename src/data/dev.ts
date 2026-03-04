@@ -1,36 +1,10 @@
-import { Project } from '../../types';
+import { Project, BilingualProject, Category } from '../../types';
 
-export const DEV_DATA: Project[] = [
+export const DEV_DATA: BilingualProject[] = [
   {
     id: 'dev1',
     common: {
-      category: 'Development',
-      image: '', // Placeholder
-      icon: 'message-circle',
-      websiteUrl: 'https://wechat-msganalysis-krgkfhfdcxwmtwst4jc4bw.streamlit.app/',
-      githubUrl: 'https://github.com/LuN3cy/WeChat-MsgAnalysis'
-    },
-    zh: {
-      title: '微信聊天记录数据分析',
-      subtitle: 'Python / Streamlit',
-      description: '对json格式的聊天记录进行完整的分析，包含时段、内容和互动模式。',
-      role: '全栈开发',
-      tags: ['Python', 'Streamlit', '数据分析'],
-      roleDetail: "独立完成后端数据处理逻辑与前端可视化界面开发。"
-    },
-    en: {
-      title: 'WeChat Msg Analysis',
-      subtitle: 'Python / Streamlit',
-      description: 'Comprehensive analysis of JSON chat records, including time slots, content, and interaction patterns.',
-      role: 'Full Stack Developer',
-      tags: ['Python', 'Streamlit', 'Data Analysis'],
-      roleDetail: "Independently completed backend data processing logic and frontend visualization interface development."
-    }
-  },
-  {
-    id: 'dev2',
-    common: {
-      category: 'Development',
+      category: Category.DEV,
       image: '', // Placeholder
       icon: 'id-card',
       websiteUrl: 'https://lun3cy.github.io/LUNA-Badge/',
@@ -54,9 +28,9 @@ export const DEV_DATA: Project[] = [
     }
   },
   {
-    id: 'dev3',
+    id: 'dev2',
     common: {
-      category: 'Development',
+      category: Category.DEV,
       image: '', // Placeholder
       icon: 'file-text',
       websiteUrl: 'https://lun3cy.github.io/Md2Design/',
@@ -80,29 +54,29 @@ export const DEV_DATA: Project[] = [
     }
   },
   {
-    id: 'dev4',
+    id: 'dev3',
     common: {
-      category: 'Development',
+      category: Category.DEV,
       image: '', // Placeholder
-      icon: 'film',
-      websiteUrl: 'https://lun3cy.github.io/CineViz/',
-      githubUrl: 'https://github.com/LuN3cy/CineViz'
+      icon: 'smile',
+      websiteUrl: 'https://emojicut-qwen.vercel.app/',
+      githubUrl: 'https://github.com/Left2y/EmojiCut'
     },
     zh: {
-      title: 'CineViz',
-      subtitle: 'React / Tailwind',
-      description: '基于计量电影学的视频节奏与视觉分析工具。',
+      title: 'Emoji Cut Qwen',
+      subtitle: 'React 19 / Qwen AI',
+      description: '一键生成表情包切图工具。上传角色图，即可利用 Qwen AI 模型生成 16 张可爱的 LINE 风格贴纸，支持自定义风格与批量导出。',
       role: 'vibe builder',
-      tags: ['React', 'Tailwind CSS', 'TypeScript'],
-      roleDetail: "请理解我的意思，再生成一次，不要修改前面的代码"
+      tags: ['React 19', 'TypeScript', 'AI', 'Qwen'],
+      roleDetail: "基于 Qwen AI 图像生成模型开发，实现自动切图与打包下载。"
     },
     en: {
-      title: 'CineViz',
-      subtitle: 'React / Tailwind',
-      description: 'A video rhythm and visual analysis tool based on movie theory.',
+      title: 'Emoji Cut Qwen',
+      subtitle: 'React 19 / Qwen AI',
+      description: 'One-click emoji sticker generator. Upload a character image to create 16 cute LINE-style stickers using the Qwen AI model. Supports custom styles and batch export.',
       role: 'vibe builder',
-      tags: ['React', 'Tailwind CSS', 'TypeScript'],
-      roleDetail: "Please understand my meaning, and generate it again. Do not modify the code before."
+      tags: ['React 19', 'TypeScript', 'AI', 'Qwen'],
+      roleDetail: "Developed with Qwen AI image generation model, featuring automatic cutting and batch download."
     }
   }
 ];
