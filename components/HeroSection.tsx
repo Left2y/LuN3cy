@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { HOME_DATA } from '../src/data/home';
 import { CONTACT_DATA } from '../src/data/contact';
+import { resolveAsset } from '../src/utils/path';
 import { Language, Category } from '../types';
 import { createPortal } from 'react-dom';
 import { MapPin } from 'lucide-react';
@@ -112,7 +113,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
               </div>
 
               {/* Resume Download - Orange Style */}
-              <a href="/resume.pdf" download="体验设计师简历.pdf" className="group flex items-center gap-3">
+              <a href={resolveAsset('/resume.pdf')} download="体验设计师简历.pdf" className="group flex items-center gap-3">
                 <span className="text-2xl lg:text-3xl text-orange-500 transition-transform duration-300 group-hover:translate-x-1">→</span>
                 <h3 className="text-2xl lg:text-3xl font-bold mb-0 text-orange-500 transition-colors duration-300 group-hover:opacity-80">
                   {contactContent.resumeLabel}

@@ -9,6 +9,7 @@ import { Mail, MapPin, RotateCcw, Phone, MessageCircle, Smile, FileDown } from '
 import { NAV_ITEMS } from './src/data/navigation';
 import { CONTACT_DATA } from './src/data/contact';
 import { PORTFOLIO_PAGE_DATA } from './src/data/portfolioPage';
+import { resolveAsset } from './src/utils/path';
 import { Language, Category } from './types';
 
 interface ExplodedElementData {
@@ -419,7 +420,7 @@ function App() {
 
               {/* Resume Download */}
               <a
-                href="/resume.pdf"
+                href={resolveAsset('/resume.pdf')}
                 download="体验设计师简历.pdf"
                 className="block p-8 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-pointer hover:border-orange-500 transition-colors duration-300"
               >

@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { PROJECTS, CATEGORY_LABELS } from '../constants';
 import { Category, Language, Project } from '../types';
 import { PHOTOGRAPHY_GALLERY } from '../src/data/photography';
+import { resolveAsset } from '../src/utils/path';
 import { ArrowUpRight, X, Terminal, MessageCircle, IdCard, Github, ExternalLink, ChevronLeft, ChevronRight, FileText, Film, Smile, Zap, Mic } from 'lucide-react';
 
 interface PortfolioSectionProps {
@@ -178,7 +179,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                 <div className="w-full aspect-[4/3] bg-gray-100 dark:bg-gray-800 mb-6 overflow-hidden rounded-2xl relative shadow-none border border-transparent transition-all duration-500 group-hover:shadow-2xl dark:group-hover:shadow-none dark:group-hover:border-white/20 transform-gpu">
                   {project.image && !project.image.includes('picsum') ? (
                     <img
-                      src={project.image}
+                      src={resolveAsset(project.image)}
                       alt={project.title}
                       loading="lazy"
                       decoding="async"
@@ -260,7 +261,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
-                  src={currentGallery[lightboxIndex]}
+                  src={resolveAsset(currentGallery[lightboxIndex])}
                   alt="Full View"
                   className="max-w-full max-h-full object-contain shadow-2xl rounded-lg select-none"
                   referrerPolicy="no-referrer"
@@ -350,7 +351,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                               }}
                             >
                               <img
-                                src={item}
+                                src={resolveAsset(item)}
                                 alt={`${displayProject.title} ${idx + 1}`}
                                 loading="lazy"
                                 decoding="async"
@@ -384,7 +385,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                           src={displayProject.videoUrl}
                           controls
                           className="w-full h-full object-contain bg-black"
-                          poster={displayProject.image}
+                          poster={resolveAsset(displayProject.image)}
                         />
                       ) : displayProject.bilibiliId ? (
                         // Bilibili Player with Click-to-Load Optimization
@@ -415,7 +416,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                         <>
                           {displayProject.image && !displayProject.image.includes('picsum') ? (
                             <img
-                              src={displayProject.image}
+                              src={resolveAsset(displayProject.image)}
                               alt={displayProject.title}
                               referrerPolicy="no-referrer"
                               className="w-full h-full object-cover"
