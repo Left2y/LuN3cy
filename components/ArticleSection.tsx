@@ -119,7 +119,7 @@ export const ArticleSection: React.FC<ArticleSectionProps> = ({ language }) => {
                             </div>
                         )}
                        
-                        <div className="absolute top-2 left-2 bg-white/90 dark:bg-black/90 text-black dark:text-white px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md shadow-sm">
+                        <div className="absolute top-2 left-2 rounded-md bg-white/90 px-2 py-1 text-[10px] font-bold uppercase text-black shadow-sm dark:bg-black/90 dark:text-white">
                           {ARTICLE_LABELS[language][article.category].split('|')[0].trim()}
                         </div>
                     </div>

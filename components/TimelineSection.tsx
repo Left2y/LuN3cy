@@ -349,7 +349,7 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({ language }) =>
                                return (
                                  <div key={aIdx} className="flex flex-col items-start gap-1 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                                     {rank && (
-                                      <span className="bg-black dark:bg-white text-white dark:text-black text-xs md:text-sm font-bold px-2 py-1 rounded-md uppercase tracking-wide">
+                                      <span className="rounded-md bg-black px-2 py-1 text-xs font-bold uppercase text-white dark:bg-white dark:text-black md:text-sm">
                                         {rank}
                                       </span>
                                     )}

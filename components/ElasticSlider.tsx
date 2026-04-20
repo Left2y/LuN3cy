@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ElasticSliderProps {
   defaultValue?: number;
@@ -10,7 +9,7 @@ interface ElasticSliderProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   onChange?: (value: number) => void;
-  value?: number; // Added to support controlled mode
+  value?: number;
 }
 
 const ElasticSlider: React.FC<ElasticSliderProps> = ({
@@ -24,122 +23,93 @@ const ElasticSlider: React.FC<ElasticSliderProps> = ({
   onChange,
   value: controlledValue,
 }) => {
-  // Use controlled value if provided, otherwise internal state
   const isControlled = controlledValue !== undefined;
   const [internalValue, setInternalValue] = useState(defaultValue || startingValue);
-  const currentValue = isControlled ? controlledValue : internalValue;
-
   const [isDragging, setIsDragging] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
 
+  const currentValue = isControlled ? controlledValue : internalValue;
   const percentage = Math.min(100, Math.max(0, (currentValue / maxValue) * 100));
 
-  const handleInteraction = (clientX: number) => {
+  const updateValue = (clientX: number) => {
     if (!sliderRef.current) return;
+
     const rect = sliderRef.current.getBoundingClientRect();
-    const x = Math.min(Math.max(0, clientX - rect.left), rect.width);
-    const rawPercentage = x / rect.width;
-    let newValue = rawPercentage * maxValue;
+    const raw = Math.min(Math.max(0, clientX - rect.left), rect.width);
+    let nextValue = (raw / rect.width) * maxValue;
 
     if (isStepped && stepSize) {
-      newValue = Math.round(newValue / stepSize) * stepSize;
+      nextValue = Math.round(nextValue / stepSize) * stepSize;
     }
 
-    // Clamp
-    newValue = Math.min(Math.max(0, newValue), maxValue);
+    nextValue = Math.min(Math.max(0, nextValue), maxValue);
 
     if (!isControlled) {
-      setInternalValue(newValue);
+      setInternalValue(nextValue);
     }
-    
-    if (onChange) {
-      onChange(newValue);
-    }
-  };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    handleInteraction(e.clientX);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDragging(true);
-    handleInteraction(e.touches[0].clientX);
+    onChange?.(nextValue);
   };
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        handleInteraction(e.clientX);
-      }
+    const handleMouseMove = (event: MouseEvent) => {
+      if (isDragging) updateValue(event.clientX);
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      if (isDragging) {
-        handleInteraction(e.touches[0].clientX);
-      }
+    const handleTouchMove = (event: TouchEvent) => {
+      if (isDragging) updateValue(event.touches[0].clientX);
     };
 
-    const handleUp = () => {
-      setIsDragging(false);
-    };
+    const handleEnd = () => setIsDragging(false);
 
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleUp);
+      window.addEventListener('mouseup', handleEnd);
       window.addEventListener('touchmove', handleTouchMove);
-      window.addEventListener('touchend', handleUp);
+      window.addEventListener('touchend', handleEnd);
     }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleUp);
+      window.removeEventListener('mouseup', handleEnd);
       window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleUp);
+      window.removeEventListener('touchend', handleEnd);
     };
-  }, [isDragging, maxValue, stepSize, isStepped, onChange, isControlled]);
+  }, [isDragging, maxValue, stepSize, isStepped, isControlled, onChange]);
 
   return (
-    <div className="flex items-center gap-3 w-full select-none touch-none">
-      {leftIcon && (
-        <div className="text-zinc-500 dark:text-zinc-400 shrink-0">
-          {leftIcon}
-        </div>
-      )}
-      
-      <div 
+    <div className="flex w-full select-none items-center gap-3 touch-none">
+      {leftIcon && <div className="shrink-0 text-[var(--ink)]">{leftIcon}</div>}
+
+      <div
         ref={sliderRef}
-        className="relative flex-1 h-12 flex items-center cursor-pointer group"
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
+        className="relative flex h-12 flex-1 cursor-pointer items-center"
+        onMouseDown={(event) => {
+          setIsDragging(true);
+          updateValue(event.clientX);
+        }}
+        onTouchStart={(event) => {
+          setIsDragging(true);
+          updateValue(event.touches[0].clientX);
+        }}
       >
-        {/* Track Background */}
-        <div className="absolute w-full h-2 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden transition-all duration-300 ease-out group-hover:h-3">
-           {/* Fill */}
-           <div 
-             className="h-full bg-black dark:bg-white rounded-full transition-all duration-100 ease-linear"
-             style={{ width: `${percentage}%` }}
-           />
+        <div className="absolute h-4 w-full border border-[var(--line)] bg-[var(--surface-strong)]">
+          <div
+            className="h-full bg-[var(--ink)] transition-all duration-100"
+            style={{ width: `${percentage}%` }}
+          />
         </div>
 
-        {/* Elastic Thumb / Glow Effect */}
-        <div 
-          className="absolute h-6 w-6 bg-white dark:bg-zinc-200 rounded-full shadow-lg border border-zinc-200 dark:border-zinc-700 transform transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] pointer-events-none"
-          style={{ 
-            left: `${percentage}%`, 
-            transform: `translate(-50%, 0) scale(${isDragging ? 1.5 : 1})` 
+        <div
+          className="absolute h-7 w-4 border border-[var(--line)] bg-[var(--accent)] transition-transform duration-150"
+          style={{
+            left: `${percentage}%`,
+            transform: `translate(-50%, 0) scale(${isDragging ? 1.08 : 1})`,
           }}
-        >
-          {/* Inner Dot */}
-          <div className={`absolute inset-0 m-auto w-2 h-2 rounded-full bg-black dark:bg-zinc-900 transition-all duration-300 ${isDragging ? 'scale-50' : 'scale-100'}`} />
-        </div>
+        />
       </div>
 
-      {rightIcon && (
-        <div className="text-zinc-500 dark:text-zinc-400 shrink-0">
-          {rightIcon}
-        </div>
-      )}
+      {rightIcon && <div className="shrink-0 text-[var(--ink)]">{rightIcon}</div>}
     </div>
   );
 };

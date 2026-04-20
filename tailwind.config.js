@@ -10,13 +10,15 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"OPPO Sans"', 'Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+        sans: ['"Noto Sans SC"', '"OPPO Sans"', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+        mono: ['"Azeret Mono"', 'ui-monospace', 'monospace'],
+        display: ['"Bricolage Grotesque"', '"Noto Sans SC"', 'sans-serif'],
       },
       colors: {
-        primary: '#000000',
-        secondary: '#666666',
-        bg: '#ffffff',
-        line: '#e5e5e5',
+        primary: 'oklch(0.18 0.035 72)',
+        secondary: 'oklch(0.43 0.045 70)',
+        bg: 'oklch(0.965 0.038 86)',
+        line: 'oklch(0.25 0.04 72)',
       },
       boxShadow: {
         'pill': '0 4px 20px rgba(0,0,0,0.05)',
