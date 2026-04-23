@@ -235,16 +235,12 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
           </strong>
         </div>
 
-        <div className="flex gap-px overflow-x-auto border-b-2 border-[var(--line)] bg-[var(--line)] no-scrollbar">
+        <div className="portfolio-filter-bar no-scrollbar">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setFilter(category)}
-              className={`min-h-[52px] shrink-0 px-4 font-mono text-xs font-bold uppercase transition-colors md:px-5 ${
-                filter === category
-                  ? 'bg-[var(--ink)] text-[var(--paper)]'
-                  : 'bg-[var(--paper)] text-[var(--ink)] hover:bg-[var(--surface-strong)]'
-              }`}
+              className={`portfolio-filter-button ${filter === category ? 'is-active' : ''}`}
               aria-pressed={filter === category}
             >
               {CATEGORY_LABELS[language][category] || category}

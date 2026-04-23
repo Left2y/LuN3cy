@@ -1,15 +1,17 @@
 import React from 'react';
 import { NAV_ITEMS } from '../src/data/navigation';
-import { Language } from '../types';
-import { Bomb, Globe, Moon, Sun } from 'lucide-react';
+import { AppTab, Language } from '../types';
+import { Bomb, Globe, Map, Moon, Sun } from 'lucide-react';
 
 interface SidebarProps {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
+  activeTab: AppTab;
+  setActiveTab: (tab: AppTab) => void;
   language: Language;
   toggleLanguage: () => void;
   theme: 'light' | 'dark';
   toggleTheme: () => void;
+  onOpenCanvas: () => void;
+  canvasActive?: boolean;
   onTriggerGravity: () => void;
   gravityActive?: boolean;
 }
@@ -21,6 +23,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   toggleLanguage,
   theme,
   toggleTheme,
+  onOpenCanvas,
+  canvasActive = false,
   onTriggerGravity,
   gravityActive = false,
 }) => {
@@ -29,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div className="fixed inset-x-0 top-3 z-50 px-3 md:top-4 md:px-6">
       <nav className="system-panel mx-auto w-full max-w-[1600px] overflow-hidden">
-        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-stretch">
+        <div className="system-nav-grid grid grid-cols-[auto_minmax(0,1fr)_auto] items-stretch xl:grid-cols-[auto_auto_minmax(0,1fr)_auto]">
           <button
             className="system-module system-brand"
             onClick={() => setActiveTab('dashboard')}
@@ -49,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => setActiveTab(item.id as AppTab)}
                   className={`system-button shrink-0 ${isActive ? 'system-button-active' : ''}`}
                   aria-current={isActive ? 'page' : undefined}
                 >
@@ -73,6 +77,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
               <span className="hidden lg:inline">{theme === 'light' ? 'Dark' : 'Light'}</span>
+            </button>
+
+            <button
+              className={`system-button px-3 md:px-4 ${canvasActive ? 'system-button-active' : ''}`}
+              onClick={onOpenCanvas}
+              title={language === 'zh' ? '打开个人地图' : 'Open map'}
+              aria-label={language === 'zh' ? '打开个人地图' : 'Open map'}
+              aria-pressed={canvasActive}
+              disabled={gravityActive}
+            >
+              <Map size={15} strokeWidth={2.15} aria-hidden="true" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.28em]">Map</span>
             </button>
 
             <button

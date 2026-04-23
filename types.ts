@@ -1,5 +1,6 @@
 
 export type Language = 'zh' | 'en';
+export type AppTab = 'dashboard' | 'portfolio' | 'contact' | 'canvas';
 
 export enum Category {
   ALL = 'All',

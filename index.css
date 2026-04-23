@@ -32,19 +32,19 @@
 }
 
 html.dark {
-  --accent: oklch(0.72 0.18 48);
-  --accent-quiet: oklch(0.32 0.08 56);
-  --signal: oklch(0.75 0.13 145);
-  --lapis: oklch(0.72 0.11 255);
-  --paper: oklch(0.18 0.028 68);
-  --paper-strong: oklch(0.13 0.025 66);
-  --surface: oklch(0.22 0.03 68);
-  --surface-strong: oklch(0.28 0.035 68);
-  --ink: oklch(0.95 0.032 85);
-  --muted: oklch(0.76 0.04 80);
-  --line: oklch(0.8 0.035 82);
-  --grid: color-mix(in oklch, var(--ink) 11%, transparent);
-  --shadow: color-mix(in oklch, black 52%, transparent);
+  --accent: oklch(0.69 0.17 43);
+  --accent-quiet: oklch(0.36 0.085 54);
+  --signal: oklch(0.63 0.08 142);
+  --lapis: oklch(0.58 0.075 258);
+  --paper: oklch(0.255 0.036 72);
+  --paper-strong: oklch(0.18 0.032 70);
+  --surface: oklch(0.31 0.038 72);
+  --surface-strong: oklch(0.39 0.04 74);
+  --ink: oklch(0.9 0.034 84);
+  --muted: oklch(0.71 0.04 78);
+  --line: oklch(0.62 0.038 76);
+  --grid: color-mix(in oklch, var(--line) 18%, transparent);
+  --shadow: color-mix(in oklch, black 64%, transparent);
   color-scheme: dark;
 }
 
@@ -110,6 +110,27 @@ input:focus-visible {
   border-radius: var(--radius);
 }
 
+.system-nav-grid {
+  border-radius: inherit;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.system-nav-grid > .system-brand {
+  overflow: hidden;
+  border-top-left-radius: calc(var(--radius) - 2px);
+  border-bottom-left-radius: calc(var(--radius) - 2px);
+}
+
+.system-nav-grid > :last-child {
+  overflow: hidden;
+}
+
+.system-nav-grid > :last-child .system-button:last-child {
+  border-top-right-radius: calc(var(--radius) - 2px);
+  border-bottom-right-radius: calc(var(--radius) - 2px);
+}
+
 .system-grid-signal {
   position: relative;
   isolation: isolate;
@@ -154,6 +175,7 @@ input:focus-visible {
   gap: 10px;
   min-height: 50px;
   padding: 0 15px;
+  border-radius: 0;
   border-right: var(--border-thin);
   font-family: "Azeret Mono", ui-monospace, monospace;
   font-size: 0.7rem;
@@ -198,6 +220,66 @@ input:focus-visible {
 .system-button-accent {
   background: var(--accent);
   color: var(--paper);
+}
+
+.portfolio-filter-bar {
+  display: flex;
+  gap: 1px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px;
+  border-bottom: var(--border-thick);
+  background: var(--line);
+}
+
+.portfolio-filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  flex-shrink: 0;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-filter-button span {
+  margin-left: 8px;
+  font-size: 0.68rem;
+  opacity: 0.7;
+}
+
+.portfolio-filter-button:hover {
+  background: var(--surface-strong);
+}
+
+.portfolio-filter-button.is-active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html.dark .portfolio-filter-bar {
+  background: color-mix(in oklch, var(--line) 84%, var(--paper-strong));
+}
+
+html.dark .portfolio-filter-button {
+  background: color-mix(in oklch, var(--paper) 88%, var(--surface));
+}
+
+html.dark .portfolio-filter-button:hover {
+  background: color-mix(in oklch, var(--surface-strong) 74%, var(--paper));
+}
+
+html.dark .portfolio-filter-button.is-active {
+  background: var(--ink);
+  color: var(--paper-strong);
 }
 
 .system-chip {
@@ -307,25 +389,279 @@ input:focus-visible {
   }
 }
 
-.hero-media-grid {
-  display: grid;
-  grid-template-columns: 0.82fr 1.18fr;
-  grid-template-rows: 1fr 0.72fr;
-  gap: var(--space-md);
+.hero-archive-panel {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
   min-height: clamp(360px, 46vw, 640px);
-}
-
-.hero-media-grid img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  padding: clamp(18px, 2vw, 28px);
   border: var(--border-thick);
   border-radius: var(--radius);
-  background: var(--surface-strong);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in oklch, var(--accent) 12%, transparent), transparent 16rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--surface) 56%, white), var(--paper));
 }
 
-.hero-media-grid img:first-child {
-  grid-row: 1 / 3;
+html.dark .hero-archive-panel {
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in oklch, var(--accent) 14%, transparent), transparent 18rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--surface-strong) 64%, var(--paper)), color-mix(in oklch, var(--paper-strong) 88%, var(--paper)));
+}
+
+.hero-archive-panel::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid color-mix(in oklch, var(--line) 18%, transparent);
+  border-radius: calc(var(--radius) - 2px);
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+.hero-archive-head,
+.hero-archive-copy-block,
+.hero-archive-list,
+.hero-archive-footnote {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-archive-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.hero-archive-total {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in oklch, var(--line) 24%, transparent);
+  background: color-mix(in oklch, var(--paper) 72%, var(--surface));
+  color: var(--ink);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+html.dark .hero-archive-total {
+  background: color-mix(in oklch, var(--surface) 82%, var(--paper-strong));
+}
+
+.hero-archive-copy-block {
+  display: grid;
+  gap: 8px;
+  max-width: 34ch;
+}
+
+.hero-archive-title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Noto Sans SC", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.hero-archive-copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  font-weight: 600;
+  line-height: 1.68;
+}
+
+.hero-archive-list {
+  display: grid;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.hero-archive-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in oklch, var(--line) 26%, transparent);
+  border-radius: calc(var(--radius) - 1px);
+  background: color-mix(in oklch, var(--paper) 82%, var(--surface));
+  color: var(--ink);
+  text-align: left;
+  transition:
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+html.dark .hero-archive-item {
+  background: color-mix(in oklch, var(--surface) 80%, var(--paper-strong));
+}
+
+.hero-archive-item:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklch, var(--accent) 52%, var(--line));
+  background: color-mix(in oklch, var(--accent) 10%, var(--surface-strong));
+}
+
+html.dark .hero-archive-item:hover {
+  background: color-mix(in oklch, var(--accent) 12%, var(--surface-strong));
+}
+
+.hero-archive-item-main {
+  min-width: 0;
+}
+
+.hero-archive-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.hero-archive-index,
+.hero-archive-kicker,
+.hero-archive-item-unit,
+.hero-archive-item-note {
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.hero-archive-index {
+  color: var(--accent);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.hero-archive-kicker {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.hero-archive-item-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hero-archive-item-title {
+  font-family: "Bricolage Grotesque", "Noto Sans SC", sans-serif;
+  font-size: clamp(1.4rem, 1.9vw, 2rem);
+  font-weight: 800;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.hero-archive-item-arrow {
+  flex: none;
+  margin-top: 2px;
+  opacity: 0.7;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease, color 0.18s ease;
+}
+
+.hero-archive-item:hover .hero-archive-item-arrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+  color: var(--accent);
+}
+
+.hero-archive-item-copy {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.62;
+}
+
+.hero-archive-item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.hero-archive-item-tags span {
+  padding: 4px 8px;
+  border: 1px solid color-mix(in oklch, var(--line) 22%, transparent);
+  color: var(--ink);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-archive-item-stat {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  min-width: 72px;
+}
+
+.hero-archive-item-count {
+  font-family: "Bricolage Grotesque", "Noto Sans SC", sans-serif;
+  font-size: clamp(2rem, 3.1vw, 2.8rem);
+  font-weight: 800;
+  line-height: 0.9;
+}
+
+.hero-archive-item-unit {
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+.hero-archive-item-note {
+  max-width: 11ch;
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1.55;
+  text-align: right;
+}
+
+.hero-archive-footnote {
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px dashed color-mix(in oklch, var(--line) 28%, transparent);
+  color: var(--muted);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.hero-signal-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--paper) 72%, transparent);
+  border-radius: calc(var(--radius) + 6px);
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--paper) 96%, white), color-mix(in oklch, var(--paper-strong) 34%, white));
+  box-shadow:
+    0 1px 0 color-mix(in oklch, white 72%, transparent) inset,
+    0 14px 28px color-mix(in oklch, var(--ink) 10%, transparent);
+}
+
+.hero-signal-card::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid color-mix(in oklch, var(--line) 12%, transparent);
+  border-radius: calc(var(--radius) + 1px);
+  pointer-events: none;
+  opacity: 0.54;
 }
 
 .project-grid {
@@ -356,6 +692,1002 @@ input:focus-visible {
 
 .vt-page {
   view-transition-name: page;
+}
+
+.canvas-shell {
+  position: relative;
+  height: calc(100dvh - 8rem);
+  min-height: 760px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 14% 16%, color-mix(in oklch, var(--accent) 14%, transparent), transparent 26rem),
+    radial-gradient(circle at 82% 18%, color-mix(in oklch, var(--lapis) 12%, transparent), transparent 22rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--paper) 94%, white), color-mix(in oklch, var(--paper-strong) 92%, white));
+}
+
+html.dark .canvas-shell {
+  background:
+    radial-gradient(circle at 14% 16%, color-mix(in oklch, var(--accent) 14%, transparent), transparent 30rem),
+    radial-gradient(circle at 82% 18%, color-mix(in oklch, var(--lapis) 10%, transparent), transparent 24rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--paper) 82%, var(--surface-strong)), color-mix(in oklch, var(--paper-strong) 78%, var(--paper)));
+}
+
+.canvas-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(color-mix(in oklch, var(--accent) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--accent) 6%, transparent) 1px, transparent 1px),
+    radial-gradient(circle at center, color-mix(in oklch, var(--ink) 6%, transparent) 1px, transparent 1px);
+  background-size: 42px 42px, 42px 42px, 16px 16px;
+  background-position: 0 0, 0 0, 8px 8px;
+  opacity: 0.72;
+}
+
+html.dark .canvas-shell::before {
+  background:
+    linear-gradient(color-mix(in oklch, var(--accent) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--accent) 9%, transparent) 1px, transparent 1px),
+    radial-gradient(circle at center, color-mix(in oklch, var(--ink) 7%, transparent) 1px, transparent 1px);
+  opacity: 0.42;
+}
+
+.canvas-shell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, color-mix(in oklch, white 42%, transparent), transparent 16%, transparent 82%, color-mix(in oklch, var(--ink) 8%, transparent));
+}
+
+html.dark .canvas-shell::after {
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--ink) 6%, transparent), transparent 18%, transparent 72%, color-mix(in oklch, black 28%, transparent)),
+    radial-gradient(circle at 50% 52%, transparent 0, color-mix(in oklch, black 18%, transparent) 78%);
+}
+
+.canvas-surface {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+
+.canvas-surface:focus {
+  outline: none;
+}
+
+.canvas-surface.is-panning {
+  cursor: grabbing;
+}
+
+.canvas-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.canvas-surface.is-panning .canvas-world {
+  transition: none;
+}
+
+.canvas-grid-plane {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(color-mix(in oklch, var(--accent) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--accent) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--ink) 5%, transparent) 1px, transparent 1px);
+  background-size: 180px 180px, 180px 180px, 36px 36px, 36px 36px;
+  opacity: 0.84;
+}
+
+html.dark .canvas-grid-plane {
+  background:
+    linear-gradient(color-mix(in oklch, var(--accent) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--accent) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--ink) 5%, transparent) 1px, transparent 1px);
+  opacity: 0.58;
+}
+
+.canvas-group-region {
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px dashed color-mix(in oklch, var(--ink) 22%, transparent);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 14% 18%, color-mix(in oklch, currentColor 10%, transparent), transparent 28rem),
+    color-mix(in oklch, var(--paper) 54%, transparent);
+  color: var(--ink);
+  opacity: 0.54;
+  pointer-events: none;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.dark .canvas-group-region {
+  border-color: color-mix(in oklch, var(--ink) 16%, transparent);
+  background:
+    radial-gradient(circle at 14% 18%, color-mix(in oklch, currentColor 8%, transparent), transparent 28rem),
+    color-mix(in oklch, var(--paper) 34%, transparent);
+  opacity: 0.5;
+}
+
+.canvas-group-region.is-active {
+  border-color: color-mix(in oklch, var(--accent) 56%, var(--line));
+  opacity: 0.88;
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--paper) 46%, transparent);
+}
+
+html.dark .canvas-group-region.is-active {
+  border-color: color-mix(in oklch, var(--accent) 48%, transparent);
+  opacity: 0.76;
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--ink) 8%, transparent);
+}
+
+.canvas-group-region-watermark {
+  position: absolute;
+  right: 28px;
+  bottom: -24px;
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 10rem;
+  font-weight: 900;
+  line-height: 0.8;
+  opacity: 0.05;
+  text-transform: uppercase;
+}
+
+.canvas-group-region-head {
+  position: absolute;
+  left: 28px;
+  top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in oklch, var(--line) 42%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--paper) 88%, white);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+html.dark .canvas-group-region-head {
+  border-color: color-mix(in oklch, var(--line) 30%, transparent);
+  background: color-mix(in oklch, var(--surface) 78%, black);
+}
+
+.canvas-group-region-head small {
+  color: var(--accent);
+  font-size: 0.62rem;
+}
+
+.canvas-group-region p {
+  position: absolute;
+  left: 32px;
+  top: 66px;
+  max-width: 360px;
+  margin: 0;
+  color: color-mix(in oklch, var(--muted) 86%, transparent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.canvas-group-region.canvas-layer-accent {
+  background:
+    radial-gradient(circle at 14% 18%, color-mix(in oklch, var(--accent) 15%, transparent), transparent 32rem),
+    color-mix(in oklch, var(--accent) 5%, transparent);
+}
+
+.canvas-group-region.canvas-layer-ink {
+  background:
+    radial-gradient(circle at 16% 16%, color-mix(in oklch, var(--ink) 12%, transparent), transparent 34rem),
+    color-mix(in oklch, var(--ink) 4%, transparent);
+}
+
+.canvas-group-region.canvas-layer-lapis {
+  background:
+    radial-gradient(circle at 14% 18%, color-mix(in oklch, var(--lapis) 16%, transparent), transparent 30rem),
+    color-mix(in oklch, var(--lapis) 5%, transparent);
+}
+
+.canvas-group-region.canvas-layer-signal {
+  background:
+    radial-gradient(circle at 14% 18%, color-mix(in oklch, var(--signal) 14%, transparent), transparent 30rem),
+    color-mix(in oklch, var(--signal) 5%, transparent);
+}
+
+.canvas-edge-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.canvas-edge {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.canvas-edge-primary {
+  stroke: color-mix(in oklch, var(--accent) 66%, var(--line));
+  opacity: 0.96;
+}
+
+.canvas-edge-secondary {
+  stroke: color-mix(in oklch, var(--ink) 26%, transparent);
+  opacity: 0.76;
+}
+
+html.dark .canvas-edge-secondary {
+  stroke: color-mix(in oklch, var(--ink) 18%, transparent);
+  opacity: 0.48;
+}
+
+.canvas-edge-dashed {
+  stroke: color-mix(in oklch, var(--ink) 16%, transparent);
+  opacity: 0.6;
+  stroke-dasharray: 10 14;
+}
+
+html.dark .canvas-edge-dashed {
+  stroke: color-mix(in oklch, var(--ink) 13%, transparent);
+  opacity: 0.42;
+}
+
+.canvas-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid color-mix(in oklch, var(--line) 62%, transparent);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--paper) 98%, white), color-mix(in oklch, var(--paper-strong) 42%, white));
+  box-shadow:
+    0 18px 46px color-mix(in oklch, var(--ink) 13%, transparent),
+    0 2px 0 color-mix(in oklch, var(--paper) 72%, white) inset;
+  color: var(--ink);
+  text-align: left;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+html.dark .canvas-node {
+  border-color: color-mix(in oklch, var(--line) 44%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--surface) 78%, var(--surface-strong)), color-mix(in oklch, var(--surface) 82%, var(--paper)));
+  box-shadow:
+    0 22px 54px color-mix(in oklch, black 34%, transparent),
+    0 1px 0 color-mix(in oklch, var(--ink) 8%, transparent) inset;
+}
+
+.canvas-node::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1px solid color-mix(in oklch, currentColor 10%, transparent);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.canvas-node::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in oklch, currentColor 26%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in oklch, currentColor 7%, transparent);
+  pointer-events: none;
+}
+
+.canvas-surface.is-panning .canvas-node {
+  cursor: grabbing;
+}
+
+.canvas-node:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 24px 54px color-mix(in oklch, var(--ink) 17%, transparent),
+    0 2px 0 color-mix(in oklch, var(--paper) 72%, white) inset;
+}
+
+html.dark .canvas-node:hover {
+  box-shadow:
+    0 28px 64px color-mix(in oklch, black 42%, transparent),
+    0 1px 0 color-mix(in oklch, var(--ink) 10%, transparent) inset;
+}
+
+.canvas-node:active {
+  transform: translateY(-2px) scale(0.995);
+}
+
+.canvas-node-selected {
+  border-color: color-mix(in oklch, var(--accent) 66%, var(--line));
+  transform: translateY(-6px);
+  box-shadow:
+    0 0 0 3px color-mix(in oklch, var(--accent) 19%, transparent),
+    0 28px 64px color-mix(in oklch, var(--ink) 20%, transparent);
+}
+
+html.dark .canvas-node-selected {
+  border-color: color-mix(in oklch, var(--accent) 68%, var(--line));
+  box-shadow:
+    0 0 0 3px color-mix(in oklch, var(--accent) 22%, transparent),
+    0 30px 70px color-mix(in oklch, black 48%, transparent);
+}
+
+.canvas-node[data-tone='accent'] {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--accent) 88%, white), color-mix(in oklch, var(--accent) 74%, white));
+  color: var(--paper);
+}
+
+html.dark .canvas-node[data-tone='accent'] {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--accent) 72%, var(--paper)), color-mix(in oklch, var(--accent) 46%, var(--paper-strong)));
+  color: var(--ink);
+}
+
+.canvas-node[data-tone='ink'] {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--ink) 94%, black), color-mix(in oklch, var(--ink) 86%, var(--lapis)));
+  color: var(--paper);
+}
+
+html.dark .canvas-node[data-tone='ink'] {
+  background:
+    linear-gradient(180deg, color-mix(in oklch, black 34%, var(--paper)), color-mix(in oklch, black 50%, var(--paper-strong)));
+  color: var(--ink);
+}
+
+.canvas-node[data-tone='lapis'] {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--lapis) 26%, white), color-mix(in oklch, var(--lapis) 18%, white));
+}
+
+html.dark .canvas-node[data-tone='lapis'] {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--lapis) 20%, var(--surface)), color-mix(in oklch, var(--lapis) 12%, var(--paper)));
+}
+
+.canvas-node[data-tone='signal'] {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--signal) 20%, white), color-mix(in oklch, var(--signal) 14%, white));
+}
+
+html.dark .canvas-node[data-tone='signal'] {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--signal) 18%, var(--surface)), color-mix(in oklch, var(--signal) 10%, var(--paper)));
+}
+
+.canvas-node[data-type='tag'] {
+  gap: 10px;
+  padding: 12px;
+}
+
+.canvas-node[data-type='project'] {
+  gap: 12px;
+}
+
+.canvas-node[data-type='tag'] .canvas-node-copy,
+.canvas-node[data-type='tag'] .canvas-node-action,
+.canvas-node[data-type='tag'] .canvas-node-metric {
+  display: none;
+}
+
+.canvas-node[data-type='tag'] .canvas-node-footer {
+  margin-top: auto;
+}
+
+.canvas-node[data-type='cluster'] {
+  background: color-mix(in oklch, var(--paper) 93%, white);
+}
+
+.canvas-node-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid color-mix(in oklch, currentColor 25%, transparent);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.canvas-node-media {
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--line) 40%, transparent);
+  border-radius: 13px;
+  aspect-ratio: 16 / 7;
+  background: color-mix(in oklch, var(--surface-strong) 92%, white);
+}
+
+.canvas-node[data-type='project'] .canvas-node-media {
+  position: absolute;
+  right: 18px;
+  top: 54px;
+  width: 86px;
+  height: 62px;
+  aspect-ratio: auto;
+  border-color: color-mix(in oklch, currentColor 19%, transparent);
+  border-radius: 12px;
+  box-shadow: 0 10px 20px color-mix(in oklch, var(--ink) 13%, transparent);
+  transform: rotate(1.5deg);
+}
+
+.canvas-node-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9) contrast(1.04);
+}
+
+.canvas-node-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.canvas-node-title {
+  display: -webkit-box;
+  margin: 0;
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.18;
+  text-transform: uppercase;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.canvas-node-subtitle {
+  display: -webkit-box;
+  margin: 7px 0 0;
+  overflow: hidden;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.45;
+  opacity: 0.82;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.canvas-node-copy {
+  display: -webkit-box;
+  margin: 12px 0 0;
+  overflow: hidden;
+  color: color-mix(in oklch, currentColor 72%, transparent);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.58;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.canvas-node[data-type='project'] .canvas-node-copy {
+  -webkit-line-clamp: 3;
+}
+
+.canvas-node[data-type='project'] .canvas-node-media + .canvas-node-body {
+  padding-right: 96px;
+}
+
+.canvas-node[data-type='project'] .canvas-node-media + .canvas-node-body .canvas-node-title {
+  -webkit-line-clamp: 2;
+}
+
+.canvas-node[data-type='project'] .canvas-node-media + .canvas-node-body .canvas-node-subtitle {
+  max-width: 18ch;
+}
+
+.canvas-node-primary-meta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  max-width: 100%;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in oklch, currentColor 11%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklch, currentColor 10%, transparent);
+}
+
+.canvas-node-primary-meta span {
+  color: color-mix(in oklch, currentColor 66%, transparent);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.54rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.canvas-node-primary-meta strong {
+  overflow: hidden;
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.64rem;
+  font-weight: 900;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.canvas-node-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: auto;
+}
+
+.canvas-node-chip,
+.canvas-node-metric {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: color-mix(in oklch, currentColor 12%, transparent);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.canvas-node-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.canvas-overlay-panel {
+  position: absolute;
+  z-index: 20;
+  border: 1px solid color-mix(in oklch, var(--line) 54%, transparent);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--paper) 98%, white), color-mix(in oklch, var(--paper-strong) 36%, white));
+  box-shadow:
+    0 24px 58px color-mix(in oklch, var(--ink) 15%, transparent),
+    0 1px 0 color-mix(in oklch, var(--paper) 86%, white) inset;
+  backdrop-filter: blur(14px);
+}
+
+html.dark .canvas-overlay-panel {
+  border-color: color-mix(in oklch, var(--line) 38%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--surface) 88%, var(--paper)), color-mix(in oklch, var(--paper) 76%, var(--paper-strong)));
+  box-shadow:
+    0 26px 62px color-mix(in oklch, black 42%, transparent),
+    0 1px 0 color-mix(in oklch, var(--ink) 8%, transparent) inset;
+}
+
+.canvas-hintbar {
+  position: absolute;
+  z-index: 28;
+  left: 50%;
+  top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  max-width: clamp(360px, 43vw, 760px);
+  padding: 7px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--paper) 92%, white);
+  color: var(--ink);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  box-shadow:
+    0 18px 42px color-mix(in oklch, var(--ink) 12%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--line) 34%, transparent);
+  text-transform: uppercase;
+}
+
+html.dark .canvas-hintbar {
+  background: color-mix(in oklch, var(--surface) 84%, var(--paper-strong));
+  box-shadow:
+    0 18px 44px color-mix(in oklch, black 38%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--line) 32%, transparent);
+}
+
+.canvas-hint-meta,
+.canvas-hint-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.canvas-hintbar p {
+  min-width: 8rem;
+  margin: 0;
+  overflow: hidden;
+  color: color-mix(in oklch, var(--muted) 90%, transparent);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.canvas-status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in oklch, var(--line) 36%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--surface) 94%, white);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+html.dark .canvas-status-pill {
+  border-color: color-mix(in oklch, var(--line) 28%, transparent);
+  background: color-mix(in oklch, var(--paper) 74%, black);
+}
+
+.canvas-status-pill.canvas-layer-accent {
+  background: color-mix(in oklch, var(--accent) 16%, white);
+}
+
+.canvas-status-pill.canvas-layer-ink {
+  background: color-mix(in oklch, var(--ink) 12%, white);
+}
+
+.canvas-status-pill.canvas-layer-lapis {
+  background: color-mix(in oklch, var(--lapis) 13%, white);
+}
+
+.canvas-status-pill.canvas-layer-signal {
+  background: color-mix(in oklch, var(--signal) 13%, white);
+}
+
+.canvas-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid color-mix(in oklch, var(--line) 42%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--ink) 8%, white);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.14s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.14s cubic-bezier(0.16, 1, 0.3, 1), color 0.14s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.dark .canvas-icon-button {
+  border-color: color-mix(in oklch, var(--line) 34%, transparent);
+  background: color-mix(in oklch, var(--ink) 90%, white);
+  color: var(--paper-strong);
+}
+
+.canvas-icon-button:hover {
+  transform: translateY(-1px);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.canvas-layer-panel {
+  left: 20px;
+  top: 20px;
+  bottom: auto;
+  width: 258px;
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+  padding: 18px;
+}
+
+.canvas-panel-head h2,
+.canvas-inspector-head h2 {
+  margin: 0;
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.canvas-layer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.canvas-layer-button {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid color-mix(in oklch, var(--line) 44%, transparent);
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--surface) 92%, white);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+html.dark .canvas-layer-button {
+  border-color: color-mix(in oklch, var(--line) 26%, transparent);
+  background: color-mix(in oklch, var(--surface) 78%, var(--paper));
+}
+
+.canvas-layer-button:hover,
+.canvas-layer-button.is-active {
+  transform: translateX(4px);
+  border-color: color-mix(in oklch, var(--accent) 54%, var(--line));
+}
+
+html.dark .canvas-layer-button:hover,
+html.dark .canvas-layer-button.is-active {
+  border-color: color-mix(in oklch, var(--accent) 62%, var(--line));
+  background: color-mix(in oklch, var(--accent) 13%, var(--surface));
+}
+
+.canvas-layer-button-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.canvas-layer-button-topline span {
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.canvas-layer-button-topline strong {
+  color: var(--accent);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+}
+
+.canvas-layer-button small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.canvas-layer-button em {
+  align-self: flex-start;
+  padding: 4px 8px;
+  border: 1px solid color-mix(in oklch, var(--line) 30%, transparent);
+  border-radius: 999px;
+  color: color-mix(in oklch, var(--ink) 76%, transparent);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.canvas-layer-accent {
+  background: color-mix(in oklch, var(--accent) 14%, white);
+}
+
+.canvas-layer-ink {
+  background: color-mix(in oklch, var(--ink) 12%, white);
+}
+
+.canvas-layer-lapis {
+  background: color-mix(in oklch, var(--lapis) 12%, white);
+}
+
+.canvas-layer-signal {
+  background: color-mix(in oklch, var(--signal) 12%, white);
+}
+
+.canvas-layer-paper {
+  background: color-mix(in oklch, var(--paper) 72%, white);
+}
+
+.canvas-panel-note {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.canvas-panel-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.canvas-secondary-button,
+.canvas-link-button,
+.canvas-ghost-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  border-radius: 12px;
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.16s cubic-bezier(0.16, 1, 0.3, 1), color 0.16s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canvas-secondary-button {
+  width: 100%;
+  border: 1px solid color-mix(in oklch, var(--line) 46%, transparent);
+  background: color-mix(in oklch, var(--ink) 8%, white);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+html.dark .canvas-secondary-button,
+html.dark .canvas-link-button {
+  border-color: color-mix(in oklch, var(--line) 32%, transparent);
+  background: color-mix(in oklch, var(--ink) 9%, var(--surface));
+}
+
+.canvas-secondary-button:hover,
+.canvas-link-button:hover,
+.canvas-ghost-button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklch, var(--accent) 58%, var(--line));
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.canvas-ghost-button {
+  width: 42px;
+  border: 1px solid color-mix(in oklch, var(--line) 42%, transparent);
+  background: transparent;
+  color: var(--ink);
+}
+
+.canvas-inspector {
+  right: 20px;
+  top: 20px;
+  bottom: 20px;
+  width: 336px;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.canvas-inspector-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.canvas-inspector-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 18px;
+  max-height: calc(100% - 58px);
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.canvas-inspector-media {
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid color-mix(in oklch, var(--line) 42%, transparent);
+  aspect-ratio: 16 / 10;
+  background: color-mix(in oklch, var(--surface-strong) 92%, white);
+}
+
+.canvas-inspector-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.canvas-inspector-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.canvas-inspector-copy,
+.canvas-overview-copy,
+.canvas-empty-state p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.canvas-inspector-meta {
+  display: grid;
+  gap: 10px;
+}
+
+.canvas-overview-state .canvas-inspector-meta {
+  grid-template-columns: 1fr 1fr;
+}
+
+.canvas-meta-row {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 12px;
+  background: color-mix(in oklch, var(--ink) 6%, white);
+}
+
+html.dark .canvas-meta-row {
+  background: color-mix(in oklch, var(--ink) 8%, var(--surface));
+}
+
+.canvas-meta-row span {
+  color: var(--muted);
+  font-family: "Azeret Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.canvas-meta-row strong {
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.canvas-chip-row,
+.canvas-inspector-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.canvas-link-button {
+  min-width: calc(50% - 5px);
+  padding: 0 14px;
+  border: 1px solid color-mix(in oklch, var(--line) 42%, transparent);
+  background: color-mix(in oklch, var(--ink) 8%, white);
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.canvas-empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 @keyframes vtFadeIn {
@@ -398,15 +1730,41 @@ input:focus-visible {
     gap: var(--space-xs);
   }
 
-  .hero-media-grid {
-    grid-template-columns: 1fr 1fr;
-    min-height: 300px;
+  .hero-archive-panel {
+    min-height: auto;
   }
 
-  .hero-media-grid img:first-child {
-    grid-column: 1 / 3;
-    grid-row: auto;
-    max-height: 260px;
+  .hero-archive-item {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-archive-item-stat {
+    justify-items: start;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .hero-archive-item-note {
+    max-width: none;
+    text-align: left;
+  }
+}
+
+@media (max-width: 1380px) {
+  .canvas-layer-panel {
+    width: 232px;
+  }
+
+  .canvas-inspector {
+    width: 306px;
+  }
+
+  .canvas-hintbar {
+    max-width: clamp(340px, 42vw, 620px);
+  }
+
+  .canvas-link-button {
+    min-width: 100%;
   }
 }
 

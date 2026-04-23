@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
 import { FileDown, Mail, MessageCircle, Phone, RotateCcw } from 'lucide-react';
+import { CanvasBoard } from './components/CanvasBoard';
 import { HeroSection } from './components/HeroSection';
 import { MusicPlayer } from './components/MusicPlayer';
 import { PortfolioSection } from './components/PortfolioSection';
@@ -8,7 +9,7 @@ import { Sidebar } from './components/Sidebar';
 import { CONTACT_DATA } from './src/data/contact';
 import { PORTFOLIO_PAGE_DATA } from './src/data/portfolioPage';
 import { resolveAsset } from './src/utils/path';
-import { Category, Language } from './types';
+import { AppTab, Category, Language } from './types';
 
 interface ExplodedElementData {
   element: HTMLElement;
@@ -16,12 +17,13 @@ interface ExplodedElementData {
 }
 
 function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState<AppTab>('dashboard');
   const [language, setLanguage] = useState<Language>('zh');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [portfolioCategory, setPortfolioCategory] = useState<string>('All');
   const [gravityActive, setGravityActive] = useState(false);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
+  const lastStandardTabRef = useRef<AppTab>('dashboard');
 
   const engineRef = useRef<any>(null);
   const runnerRef = useRef<any>(null);
@@ -67,10 +69,51 @@ function App() {
     setLanguage((prev) => (prev === 'zh' ? 'en' : 'zh'));
   };
 
+  const commitTab = (tab: AppTab) => {
+    if (tab !== 'canvas') {
+      lastStandardTabRef.current = tab;
+    }
+
+    setActiveTab(tab);
+  };
+
+  const navigateToTab = (tab: AppTab, options?: { withTransition?: boolean }) => {
+    const update = () => {
+      commitTab(tab);
+    };
+
+    if (options?.withTransition === false) {
+      update();
+      return;
+    }
+
+    startViewTransition(update);
+  };
+
+  const openCanvas = () => {
+    if (gravityActive) return;
+
+    if (window.matchMedia('(max-width: 1023px)').matches) {
+      setPortfolioCategory('All');
+      navigateToTab('portfolio', { withTransition: false });
+      return;
+    }
+
+    if (activeTab !== 'canvas') {
+      lastStandardTabRef.current = activeTab;
+    }
+
+    setActiveTab('canvas');
+  };
+
+  const closeCanvas = () => {
+    navigateToTab(lastStandardTabRef.current, { withTransition: false });
+  };
+
   const handleHeroNavigation = (category: Category) => {
     startViewTransition(() => {
       setPortfolioCategory(category);
-      setActiveTab('portfolio');
+      commitTab('portfolio');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   };
@@ -104,7 +147,7 @@ function App() {
   };
 
   const triggerGravity = () => {
-    if (gravityActive || !Matter) return;
+    if (gravityActive || !Matter || activeTab === 'canvas') return;
 
     scrollPositionRef.current = window.scrollY;
     document.body.style.height = `${document.documentElement.scrollHeight}px`;
@@ -420,7 +463,7 @@ function App() {
         return (
           <>
             <HeroSection
-              onNavigate={(tab) => startViewTransition(() => setActiveTab(tab))}
+              onNavigate={(tab) => navigateToTab(tab as AppTab)}
               onCategorySelect={handleHeroNavigation}
               language={language}
             />
@@ -460,6 +503,8 @@ function App() {
         );
       case 'contact':
         return renderContactPage();
+      case 'canvas':
+        return <CanvasBoard language={language} onExit={closeCanvas} />;
       default:
         return null;
     }
@@ -471,44 +516,48 @@ function App() {
 
       <Sidebar
         activeTab={activeTab}
-        setActiveTab={(tab) => startViewTransition(() => setActiveTab(tab))}
+        setActiveTab={navigateToTab}
         language={language}
         toggleLanguage={toggleLanguage}
         theme={theme}
         toggleTheme={toggleTheme}
+        onOpenCanvas={openCanvas}
+        canvasActive={activeTab === 'canvas'}
         onTriggerGravity={triggerGravity}
         gravityActive={gravityActive}
       />
 
-      <main className="vt-page w-full px-3 pb-20 pt-24 md:px-6 md:pt-28">
-        <div key={activeTab} className="space-y-8">
+      <main className={`vt-page w-full px-3 pt-24 md:px-6 md:pt-28 ${activeTab === 'canvas' ? 'pb-8' : 'pb-20'}`}>
+        <div key={activeTab} className={activeTab === 'canvas' ? '' : 'space-y-8'}>
           {renderContent()}
         </div>
 
-        <footer className="mx-auto mt-8 w-full max-w-[1600px]">
-          <section className="system-panel overflow-hidden">
-            <div className="grid gap-px bg-[var(--line)] md:grid-cols-[1fr_1fr_2fr]">
-              <div className="bg-[var(--paper)] p-5">
-                <span className="system-label">Directories</span>
-                <p className="font-mono text-xs font-bold uppercase text-[var(--ink)]">
-                  Home / Portfolio / Contact
-                </p>
+        {activeTab !== 'canvas' && (
+          <footer className="mx-auto mt-8 w-full max-w-[1600px]">
+            <section className="system-panel overflow-hidden">
+              <div className="grid gap-px bg-[var(--line)] md:grid-cols-[1fr_1fr_2fr]">
+                <div className="bg-[var(--paper)] p-5">
+                  <span className="system-label">Directories</span>
+                  <p className="font-mono text-xs font-bold uppercase text-[var(--ink)]">
+                    Home / Portfolio / Contact / Map
+                  </p>
+                </div>
+                <div className="bg-[var(--paper)] p-5">
+                  <span className="system-label">Status</span>
+                  <p className="font-mono text-xs font-bold uppercase text-[var(--accent)]">
+                    Studio Index Live
+                  </p>
+                </div>
+                <div className="bg-[var(--paper)] p-5">
+                  <span className="system-label">System Log</span>
+                  <p className="text-sm font-semibold leading-relaxed text-[var(--muted)]">
+                    © 2026 LEFT2Y // {content.footerDesign}
+                  </p>
+                </div>
               </div>
-              <div className="bg-[var(--paper)] p-5">
-                <span className="system-label">Status</span>
-                <p className="font-mono text-xs font-bold uppercase text-[var(--accent)]">
-                  Studio Index Live
-                </p>
-              </div>
-              <div className="bg-[var(--paper)] p-5">
-                <span className="system-label">System Log</span>
-                <p className="text-sm font-semibold leading-relaxed text-[var(--muted)]">
-                  © 2026 LEFT2Y // {content.footerDesign}
-                </p>
-              </div>
-            </div>
-          </section>
-        </footer>
+            </section>
+          </footer>
+        )}
       </main>
 
       {gravityActive && (
