@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, MapPin } from 'lucide-react';
+import { ArrowUpRight, MapPin, MessageCircle } from 'lucide-react';
 import { HOME_DATA } from '../src/data/home';
 import { CONTACT_DATA } from '../src/data/contact';
 import { PROJECT_DATA } from '../src/data/projects';
@@ -9,12 +9,14 @@ import { Category, Language } from '../types';
 interface HeroSectionProps {
   onNavigate: (page: string) => void;
   onCategorySelect: (category: Category) => void;
+  onAskAssistant?: (question: string) => void;
   language: Language;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onNavigate,
   onCategorySelect,
+  onAskAssistant,
   language,
 }) => {
   const content = HOME_DATA[language];
@@ -131,6 +133,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         ...note,
       };
     });
+  const assistantPrompts =
+    language === 'zh'
+      ? [
+          '你主要做什么？',
+          '推荐先看哪些作品？',
+          '有哪些 AI 应用？',
+          '如何联系合作？',
+        ]
+      : [
+          'What do you focus on?',
+          'Which works should I review first?',
+          'Which AI apps have you built?',
+          'How can I contact you?',
+        ];
 
   return (
     <div className="mx-auto w-full max-w-[1600px] animate-fade-in">
@@ -276,6 +292,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 Available / 2026
               </div>
             </div>
+
+            {onAskAssistant && (
+              <section className="hero-agent-rack mt-4">
+                <div className="hero-agent-rack-head">
+                  <span className="system-label">ASK LEFT2Y</span>
+                  <MessageCircle size={17} />
+                </div>
+                <div className="hero-agent-prompt-grid">
+                  {assistantPrompts.map((prompt) => (
+                    <button key={prompt} type="button" onClick={() => onAskAssistant(prompt)}>
+                      {prompt}
+                      <ArrowUpRight size={14} />
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
           </aside>
         </div>
 

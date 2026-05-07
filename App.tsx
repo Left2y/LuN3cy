@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
 import { FileDown, Mail, MessageCircle, Phone, RotateCcw } from 'lucide-react';
 import { CanvasBoard } from './components/CanvasBoard';
+import { AssistantLaunch, DigitalDoubleDock } from './components/DigitalDoubleDock';
 import { HeroSection } from './components/HeroSection';
 import { MusicPlayer } from './components/MusicPlayer';
 import { PortfolioSection } from './components/PortfolioSection';
@@ -9,7 +10,7 @@ import { Sidebar } from './components/Sidebar';
 import { CONTACT_DATA } from './src/data/contact';
 import { PORTFOLIO_PAGE_DATA } from './src/data/portfolioPage';
 import { resolveAsset } from './src/utils/path';
-import { AppTab, Category, Language } from './types';
+import { AppTab, Category, Language, Project } from './types';
 
 interface ExplodedElementData {
   element: HTMLElement;
@@ -23,6 +24,7 @@ function App() {
   const [portfolioCategory, setPortfolioCategory] = useState<string>('All');
   const [gravityActive, setGravityActive] = useState(false);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
+  const [assistantLaunch, setAssistantLaunch] = useState<AssistantLaunch | null>(null);
   const lastStandardTabRef = useRef<AppTab>('dashboard');
 
   const engineRef = useRef<any>(null);
@@ -115,6 +117,14 @@ function App() {
       setPortfolioCategory(category);
       commitTab('portfolio');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  };
+
+  const askAssistant = (question: string, project?: Project) => {
+    setAssistantLaunch({
+      id: Date.now(),
+      question,
+      project,
     });
   };
 
@@ -465,9 +475,14 @@ function App() {
             <HeroSection
               onNavigate={(tab) => navigateToTab(tab as AppTab)}
               onCategorySelect={handleHeroNavigation}
+              onAskAssistant={(question) => askAssistant(question)}
               language={language}
             />
-            <PortfolioSection language={language} externalFilter={portfolioCategory} />
+            <PortfolioSection
+              language={language}
+              externalFilter={portfolioCategory}
+              onAskProject={(project, question) => askAssistant(question, project)}
+            />
           </>
         );
       case 'portfolio':
@@ -498,7 +513,11 @@ function App() {
               </div>
             </section>
 
-            <PortfolioSection language={language} externalFilter={portfolioCategory} />
+            <PortfolioSection
+              language={language}
+              externalFilter={portfolioCategory}
+              onAskProject={(project, question) => askAssistant(question, project)}
+            />
           </div>
         );
       case 'contact':
@@ -559,6 +578,12 @@ function App() {
           </footer>
         )}
       </main>
+
+      <DigitalDoubleDock
+        language={language}
+        launch={assistantLaunch}
+        onNavigate={(tab) => navigateToTab(tab)}
+      />
 
       {gravityActive && (
         <div className="pointer-events-none fixed bottom-6 left-0 z-[1001] flex w-full justify-center px-4">

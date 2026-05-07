@@ -22,6 +22,7 @@ import { resolveAsset } from '../src/utils/path';
 interface PortfolioSectionProps {
   language: Language;
   externalFilter?: string;
+  onAskProject?: (project: Project, question: string) => void;
 }
 
 const STATUS_BY_CATEGORY: Record<string, string> = {
@@ -81,7 +82,7 @@ const getFigmaEmbedUrl = (figmaUrl?: string) => {
   }
 };
 
-export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, externalFilter }) => {
+export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, externalFilter, onAskProject }) => {
   const [filter, setFilter] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [displayProject, setDisplayProject] = useState<Project | null>(null);
@@ -223,6 +224,51 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
       project.figmaUrl && { label: 'Figma', href: project.figmaUrl },
       project.externalLink && { label: 'External', href: project.externalLink },
     ].filter(Boolean) as { label: string; href: string }[];
+  };
+
+  const getDefaultProjectQuestion = (project: Project) =>
+    language === 'zh'
+      ? `请介绍一下《${project.title}》这个项目，重点说我的职责、亮点和入口。`
+      : `Introduce "${project.title}" with my role, highlights, and access points.`;
+
+  const getProjectQuestionPrompts = (project: Project) =>
+    language === 'zh'
+      ? [
+          { label: '我的职责', question: `《${project.title}》里我的职责是什么？` },
+          { label: '技术 / 方法', question: `《${project.title}》的技术栈或设计方法是什么？` },
+          { label: '相关入口', question: `《${project.title}》有没有 Demo、GitHub 或 Figma？` },
+        ]
+      : [
+          { label: 'My Role', question: `What was my role in "${project.title}"?` },
+          { label: 'Stack / Method', question: `What stack or design method did "${project.title}" use?` },
+          { label: 'Access Points', question: `Does "${project.title}" have a demo, GitHub, or Figma?` },
+        ];
+
+  const renderProjectQuestionPanel = (project: Project) => {
+    if (!onAskProject) return null;
+
+    return (
+      <section className="mt-5 border border-[var(--line)] bg-[var(--surface)]">
+        <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] px-4 py-3">
+          <div className="font-mono text-xs font-bold uppercase">
+            {language === 'zh' ? 'Ask / 项目上下文' : 'Ask / Project Context'}
+          </div>
+          <MessageCircle size={15} className="text-[var(--accent)]" />
+        </div>
+        <div className="flex flex-wrap gap-2 p-4">
+          {getProjectQuestionPrompts(project).map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              onClick={() => onAskProject(project, item.question)}
+              className="inline-flex min-h-[42px] items-center border border-[var(--line)] bg-[var(--paper)] px-3 font-mono text-[0.68rem] font-bold uppercase text-[var(--ink)] transition-colors hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </section>
+    );
   };
 
   return (
@@ -441,22 +487,33 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                       {CATEGORY_LABELS[language][displayProject.category] || displayProject.category}
                     </div>
                     <div className="system-module hidden md:flex">{displayProject.subtitle || 'CASE FILE'}</div>
-                    {filteredProjects.length > 1 && (
-                      <div className="ml-auto flex">
-                        <button className="system-button" onClick={() => handleProjectStep(-1)}>
-                          <ChevronLeft size={16} />
-                          <span className="hidden sm:inline">{language === 'zh' ? '上一个' : 'Prev'}</span>
+                    <div className="ml-auto flex">
+                      {filteredProjects.length > 1 && (
+                        <>
+                          <button className="system-button" onClick={() => handleProjectStep(-1)}>
+                            <ChevronLeft size={16} />
+                            <span className="hidden sm:inline">{language === 'zh' ? '上一个' : 'Prev'}</span>
+                          </button>
+                          <button className="system-button" onClick={() => handleProjectStep(1)}>
+                            <span className="hidden sm:inline">{language === 'zh' ? '下一个' : 'Next'}</span>
+                            <ChevronRight size={16} />
+                          </button>
+                        </>
+                      )}
+                      {onAskProject && (
+                        <button
+                          className="system-button"
+                          onClick={() => onAskProject(displayProject, getDefaultProjectQuestion(displayProject))}
+                        >
+                          <MessageCircle size={16} />
+                          <span className="hidden sm:inline">{language === 'zh' ? '问这个项目' : 'Ask Project'}</span>
                         </button>
-                        <button className="system-button" onClick={() => handleProjectStep(1)}>
-                          <span className="hidden sm:inline">{language === 'zh' ? '下一个' : 'Next'}</span>
-                          <ChevronRight size={16} />
-                        </button>
-                      </div>
-                    )}
-                    <button className={`${filteredProjects.length > 1 ? '' : 'ml-auto'} system-button system-button-accent`} onClick={() => setSelectedProject(null)}>
-                      <X size={16} />
-                      <span>{language === 'zh' ? '关闭' : 'Close'}</span>
-                    </button>
+                      )}
+                      <button className="system-button system-button-accent" onClick={() => setSelectedProject(null)}>
+                        <X size={16} />
+                        <span>{language === 'zh' ? '关闭' : 'Close'}</span>
+                      </button>
+                    </div>
                   </div>
 
                   {displayProject.category === Category.PHOTO ? (
@@ -504,6 +561,8 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                             No local archive frames detected.
                           </div>
                         )}
+
+                        {renderProjectQuestionPanel(displayProject)}
                       </div>
                     </>
                   ) : (
@@ -673,6 +732,8 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                             </div>
                           </section>
                         </div>
+
+                        {renderProjectQuestionPanel(displayProject)}
 
                         {getLinkItems(displayProject).length > 0 && (
                           <section className="mt-5 border border-[var(--line)] bg-[var(--surface)]">
