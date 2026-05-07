@@ -104,6 +104,22 @@ input:focus-visible {
   box-shadow: var(--panel-shadow);
 }
 
+.top-nav-panel {
+  position: relative;
+  border: 0;
+  box-shadow: var(--panel-shadow);
+}
+
+.top-nav-panel::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: var(--border-thick);
+  border-radius: inherit;
+}
+
 .system-panel-flat {
   background: var(--paper);
   border: var(--border-thick);
@@ -111,6 +127,8 @@ input:focus-visible {
 }
 
 .system-nav-grid {
+  position: relative;
+  z-index: 1;
   border-radius: inherit;
   overflow: hidden;
   background: var(--paper);
@@ -118,8 +136,8 @@ input:focus-visible {
 
 .system-nav-grid > .system-brand {
   overflow: hidden;
-  border-top-left-radius: calc(var(--radius) - 2px);
-  border-bottom-left-radius: calc(var(--radius) - 2px);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .system-nav-grid > :last-child {
@@ -127,8 +145,8 @@ input:focus-visible {
 }
 
 .system-nav-grid > :last-child .system-button:last-child {
-  border-top-right-radius: calc(var(--radius) - 2px);
-  border-bottom-right-radius: calc(var(--radius) - 2px);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .system-grid-signal {
@@ -735,6 +753,10 @@ html.dark .hero-agent-rack {
   pointer-events: auto;
 }
 
+.music-dock {
+  bottom: 88px;
+}
+
 .agent-launcher {
   display: inline-flex;
   box-sizing: border-box;
@@ -1038,6 +1060,10 @@ html.dark .hero-agent-rack {
 }
 
 @media (max-width: 640px) {
+  .music-dock {
+    bottom: 78px;
+  }
+
   .agent-dock {
     right: 10px;
     bottom: 10px;

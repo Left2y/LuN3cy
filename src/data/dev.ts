@@ -137,10 +137,11 @@ export const DEV_DATA: BilingualProject[] = [
     id: 'dev6',
     common: {
       category: Category.DEV,
-      image: '',
+      image: '/coding/pdca-todo-showcase.png',
       icon: 'mic',
       websiteUrl: 'https://pdca-todo.vercel.app/today',
-      githubUrl: 'https://github.com/Left2y/PDCA-todo'
+      githubUrl: 'https://github.com/Left2y/PDCA-todo',
+      gallery: ['/coding/pdca-todo-showcase.png']
     },
     zh: {
       title: 'PDCA Todo',
@@ -159,6 +160,117 @@ export const DEV_DATA: BilingualProject[] = [
       tags: ['Next.js 15', 'AI', 'ASR', 'Hardware UI'],
       concept: "Challenging the dullness of traditional Todo tools. Providing a 'tangible' software experience via LCD displays and LED indicators. Leveraging AI to turn spoken words into structured action items.",
       roleDetail: "Responsible for full-stack architecture. Developed a high-fidelity skeuomorphic UI library, integrated Aliyun AI APIs, and implemented Docker containerization."
+    }
+  },
+  {
+    id: 'dev7',
+    common: {
+      category: Category.DEV,
+      image: '/coding/wechat-offline-importer.png',
+      icon: 'file-text',
+      githubUrl: 'https://github.com/Left2y/obsidian-wespy-plugin',
+      gallery: ['/coding/wechat-offline-importer.png']
+    },
+    zh: {
+      title: 'WeChat Offline Importer',
+      subtitle: 'Obsidian Plugin / Web Clipper',
+      description: '微信公众号文章离线入库助手，把微信文章和图片完整保存进 vault，支持本地补图、从 source 重建正文和离线阅读。',
+      role: 'vibe builder',
+      tags: ['Obsidian插件', 'Web Clipper', '本地图片', '离线阅读'],
+      concept: '剪藏后的微信文章经常只留下远程图片链接，离线后不可读。这个插件把正文、source 和附件目录变成可恢复的本地资料库，让旧笔记也能重新补齐图片与正文结构。',
+      roleDetail: '设计并实现 Obsidian 插件的导入、图片本地化、source 重建和命令面板工作流，面向个人知识库的长期可读性。'
+    },
+    en: {
+      title: 'WeChat Offline Importer',
+      subtitle: 'Obsidian Plugin / Web Clipper',
+      description: 'An Obsidian helper that saves WeChat articles and images into a vault for offline reading, including local image recovery and source-based rebuilds.',
+      role: 'vibe builder',
+      tags: ['Obsidian Plugin', 'Web Clipper', 'Local Images', 'Offline Reading'],
+      concept: 'WeChat clippings often keep fragile remote image links. This plugin turns the article body, source field, and attachment folder into a recoverable local archive.',
+      roleDetail: 'Designed and implemented the Obsidian import flow, image localization, source rebuild logic, and command palette workflows for long-term readable notes.'
+    }
+  },
+  {
+    id: 'dev8',
+    common: {
+      category: Category.DEV,
+      image: '/coding/wanderframe-showcase.png',
+      icon: 'zap',
+      githubUrl: 'https://github.com/Left2y/wanderframe-ai-travel-journal',
+      gallery: ['/coding/wanderframe-showcase.png']
+    },
+    zh: {
+      title: 'Wanderframe',
+      subtitle: 'AI Travel Journal / Infinite Canvas',
+      description: 'AI 旅行拼贴画板，给旅行创作者的自由画布式拼贴工具，支持 AI 素材、照片拼贴、无限画布和 PNG 导出。',
+      role: 'vibe builder',
+      tags: ['AI素材', '旅行手帐', '无限画布', 'PNG导出'],
+      concept: '从自动长图生成器转向自由拼贴画板，让用户保留排版、组合和叙事的主动权。AI 负责提供可拖拽素材，用户在无限画布上完成构图。',
+      roleDetail: '负责产品交互、画布编辑体验、素材面板和导出流程设计，实现面向旅行内容创作者的可组合工作台。'
+    },
+    en: {
+      title: 'Wanderframe',
+      subtitle: 'AI Travel Journal / Infinite Canvas',
+      description: 'An AI travel collage board for creators, with AI assets, photo composition, infinite canvas editing, and PNG export.',
+      role: 'vibe builder',
+      tags: ['AI Assets', 'Travel Journal', 'Infinite Canvas', 'PNG Export'],
+      concept: 'Instead of auto-generating a fixed long poster, Wanderframe gives creators a free canvas. AI provides reusable materials while users keep control over layout and story.',
+      roleDetail: 'Led the product interaction, canvas editing model, asset library, and export flow for a travel creator workspace.'
+    }
+  },
+  {
+    id: 'dev9',
+    common: {
+      category: Category.DEV,
+      image: '/coding/job-hunter-skills.png',
+      icon: 'id-card',
+      githubUrl: 'https://github.com/Left2y/job-hunter',
+      gallery: ['/coding/job-hunter-skills.png']
+    },
+    zh: {
+      title: 'JobHunter Skills',
+      subtitle: 'Agent Skills / 求职自动化',
+      description: '求职全流程助手，从岗位搜索、JD 匹配、公司背调到自动打招呼和面试准备，将求职流程拆成可执行 Agent Skills。',
+      role: 'vibe builder',
+      tags: ['Agent Skills', 'BOSS MCP', 'JD匹配', '求职自动化'],
+      concept: '把求职从零散操作拆成可追踪的技能链路：岗位搜索、JD 解析、公司背调、自动打招呼、面试准备与进度看板，各阶段都有明确输入输出。',
+      roleDetail: '设计 Agent Skills 工作流和 SQLite 进度数据模型，串联 BOSS MCP、搜索、简历匹配、公司检查和面试准备模块。'
+    },
+    en: {
+      title: 'JobHunter Skills',
+      subtitle: 'Agent Skills / Job Search Automation',
+      description: 'A full job-search assistant that turns role discovery, JD matching, company checks, outreach, interview prep, and tracking into executable Agent Skills.',
+      role: 'vibe builder',
+      tags: ['Agent Skills', 'BOSS MCP', 'JD Matching', 'Automation'],
+      concept: 'The job hunt is modeled as a traceable skill pipeline, with explicit inputs and outputs for search, matching, company risk checks, outreach, preparation, and progress tracking.',
+      roleDetail: 'Designed the Agent Skills workflow and SQLite tracking model, connecting BOSS MCP, search, resume matching, company checks, and interview prep modules.'
+    }
+  },
+  {
+    id: 'dev10',
+    common: {
+      category: Category.DEV,
+      image: '',
+      icon: 'terminal',
+      githubUrl: 'https://github.com/Left2y/NAS-homepage'
+    },
+    zh: {
+      title: 'NAS Homepage',
+      subtitle: 'NAS Dashboard / Personal Portal',
+      description: '面向 NAS 的个人主页和服务导航，用于集中展示自托管服务、工具入口和家庭服务器状态。',
+      role: 'vibe builder',
+      tags: ['NAS', '自托管', 'Dashboard', '服务导航'],
+      concept: '把家庭服务器上的服务入口整理成一个稳定、可快速访问的控制台，让常用工具和自托管应用有统一的入口。',
+      roleDetail: '负责信息架构、前端界面和服务导航体验，围绕个人 NAS 的日常访问场景组织入口。'
+    },
+    en: {
+      title: 'NAS Homepage',
+      subtitle: 'NAS Dashboard / Personal Portal',
+      description: 'A personal NAS homepage and service portal for self-hosted tools, quick links, and home server status.',
+      role: 'vibe builder',
+      tags: ['NAS', 'Self-hosted', 'Dashboard', 'Service Portal'],
+      concept: 'A stable control panel for home-server services, bringing frequently used tools and self-hosted apps into one accessible entry point.',
+      roleDetail: 'Owned the information architecture, frontend interface, and service navigation experience around daily NAS access.'
     }
   }
 ];

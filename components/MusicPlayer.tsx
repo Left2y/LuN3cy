@@ -51,7 +51,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3 md:bottom-6 md:right-6">
+    <div className="music-dock fixed right-4 z-50 flex flex-col items-end gap-3 md:right-6">
       <audio
         ref={audioRef}
         src={getSongUrl(currentSong)}

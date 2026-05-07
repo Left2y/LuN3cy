@@ -82,6 +82,11 @@ const getFigmaEmbedUrl = (figmaUrl?: string) => {
   }
 };
 
+const hasProjectMedia = (project: Project) => {
+  const gallery = project.gallery || PHOTOGRAPHY_GALLERY[project.id] || [];
+  return Boolean(project.image || project.videoUrl || project.bilibiliId || gallery.length);
+};
+
 export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, externalFilter, onAskProject }) => {
   const [filter, setFilter] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -132,7 +137,25 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedProject]);
 
-  const currentProjects = PROJECTS[language];
+  const currentProjects = useMemo(() => {
+    const sourceProjects = PROJECTS[language];
+    const categoryOrder = Array.from(new Set(sourceProjects.map((project) => project.category)));
+    const categoryRank = new Map(categoryOrder.map((category, index) => [category, index]));
+
+    return sourceProjects
+      .map((project, index) => ({ project, index }))
+      .sort((a, b) => {
+        const categoryDelta =
+          (categoryRank.get(a.project.category) ?? 0) - (categoryRank.get(b.project.category) ?? 0);
+        if (categoryDelta !== 0) return categoryDelta;
+
+        const mediaDelta = Number(hasProjectMedia(b.project)) - Number(hasProjectMedia(a.project));
+        if (mediaDelta !== 0) return mediaDelta;
+
+        return b.index - a.index;
+      })
+      .map(({ project }) => project);
+  }, [language]);
   const availableCategories = Array.from(new Set(currentProjects.map((project) => project.category)));
   if (!availableCategories.includes(Category.DEV)) availableCategories.push(Category.DEV);
 
@@ -349,9 +372,9 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                     </div>
                   )}
 
-                  {project.category === Category.PHOTO && gallery.length > 0 && (
+                  {gallery.length > 0 && (
                     <div className="absolute bottom-3 left-3 border border-[var(--line)] bg-[var(--paper)] px-2 py-1 font-mono text-[10px] font-bold uppercase text-[var(--ink)]">
-                      {gallery.length} Frames
+                      {gallery.length} {gallery.length > 1 ? 'Frames' : 'Frame'}
                     </div>
                   )}
 
@@ -626,6 +649,50 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                         <p className="mt-4 max-w-4xl text-lg font-semibold leading-relaxed text-[var(--muted)] md:text-2xl">
                           {displayProject.description}
                         </p>
+
+                        {currentGallery.length > 0 && (
+                          <section className="mt-6 overflow-hidden border border-[var(--line)] bg-[var(--surface)]">
+                            <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] px-4 py-3">
+                              <div>
+                                <div className="font-mono text-xs font-bold uppercase">
+                                  {language === 'zh' ? 'Case Frames / 作品长图' : 'Case Frames / Showcase'}
+                                </div>
+                                <p className="mt-1 text-sm font-medium leading-relaxed text-[var(--muted)]">
+                                  {language === 'zh'
+                                    ? '完整长图直接收纳在项目详情卡里。'
+                                    : 'Full long-form images are embedded directly in this case card.'}
+                                </p>
+                              </div>
+                              <div className="border border-[var(--line)] bg-[var(--paper)] px-2 py-1 font-mono text-[10px] font-bold uppercase text-[var(--muted)]">
+                                {currentGallery.length} {currentGallery.length > 1 ? 'Frames' : 'Frame'}
+                              </div>
+                            </div>
+
+                            <div className="space-y-px bg-[var(--line)]">
+                              {currentGallery.map((item, idx) => (
+                                <figure
+                                  key={item}
+                                  className="bg-[var(--paper)] p-3"
+                                >
+                                  <div className="overflow-hidden border border-[var(--line)] bg-[var(--paper)]">
+                                    <img
+                                      src={resolveAsset(item)}
+                                      alt={`${displayProject.title} showcase ${idx + 1}`}
+                                      loading="lazy"
+                                      decoding="async"
+                                      referrerPolicy="no-referrer"
+                                      className="block h-auto w-full"
+                                    />
+                                  </div>
+                                  <figcaption className="mt-3 flex items-center justify-between gap-3 font-mono text-[10px] font-bold uppercase text-[var(--muted)]">
+                                    <span>{language === 'zh' ? '作品展示长图' : 'Long-form showcase'}</span>
+                                    <span>Frame {String(idx + 1).padStart(2, '0')}</span>
+                                  </figcaption>
+                                </figure>
+                              ))}
+                            </div>
+                          </section>
+                        )}
 
                         {figmaEmbedUrl && (
                           <section className="mt-6 overflow-hidden border border-[var(--line)] bg-[var(--surface)]">

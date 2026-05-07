@@ -32,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className="fixed inset-x-0 top-3 z-50 px-3 md:top-4 md:px-6">
-      <nav className="system-panel mx-auto w-full max-w-[1600px] overflow-hidden">
+      <nav className="system-panel top-nav-panel mx-auto w-full overflow-hidden">
         <div className="system-nav-grid grid grid-cols-[auto_minmax(0,1fr)_auto] items-stretch xl:grid-cols-[auto_auto_minmax(0,1fr)_auto]">
           <button
             className="system-module system-brand"
